@@ -4,7 +4,7 @@ environments:
     pipelines:
       - wechat-restbucks-build
 pipelines:
-  itzero-build: # definition of mypipe1 pipeline
+  wechat-restbucks-build: # definition of mypipe1 pipeline
     group: restbucks # note that the group name can contain only of alphanumeric & underscore characters
     materials:
       src: # this is the name of material, the name can contain only of alphanumeric & underscore characters
