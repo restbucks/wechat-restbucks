@@ -1,0 +1,47 @@
+#ci.gocd.yaml
+environments:
+  build:
+    pipelines:
+      - wechat-restbucks-build
+pipelines:
+  itzero-build: # definition of mypipe1 pipeline
+    group: restbucks # note that the group name can contain only of alphanumeric & underscore characters
+    materials:
+      src: # this is the name of material, the name can contain only of alphanumeric & underscore characters
+        # keyword git says about type of material and url at once
+        git: https://github.com/Hippoom/wechat-restbucks.git
+    stages: # list of stages in order
+      - build: # name of stage
+          jobs:
+            build: # name of the job
+              resources:
+               - jdk8
+              artifacts:
+               - build:
+                   source: build/version
+                   destination: build
+               - build:
+                   source: build/resources/main/META-INF
+                   destination: build/resources/main
+               - test:
+                   source: build/reports
+                   destination: build
+               - test:
+                   source: build/test-results
+                   destination: build
+               - test:
+                  source: build/asciidoc
+                  destination: build
+               - test:
+                  source: build/generated-snippets/stubs
+                  destination: build
+              tabs:
+                build_info: build/resources/main/META-INF/build-info.properties
+                checkstyle: build/reports/checkstyle/main.html
+                findbugs_main: build/reports/findbugs/main.html
+                findbugs_test: build/reports/findbugs/test.html
+                test: build/reports/tests/test/index.html
+                jacoco: build/reports/jacoco/test/html/index.html
+              tasks:
+               - script: ./gradlew clean build publish
+               - script: ./scripts/build-test-image.sh && ./scripts/push-images.sh

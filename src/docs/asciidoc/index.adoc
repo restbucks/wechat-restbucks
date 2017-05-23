@@ -1,0 +1,5 @@
+include::{snippets}/index/http-request.adoc[]
+include::{snippets}/index/request-headers.adoc[]
+include::{snippets}/index/http-response.adoc[]
+include::{snippets}/index/response-fields.adoc[]
+include::{snippets}/index/links.adoc[]

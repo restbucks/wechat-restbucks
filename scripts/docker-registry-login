@@ -1,0 +1,23 @@
+#!/usr/bin/expect
+
+set user $env(DOCKER_REGISTRY_USER)
+set pass $env(DOCKER_REGISTRY_PASS)
+
+spawn docker login localhost:5000
+
+expect {
+
+  "Login Succeeded" {
+    exit
+  }
+  "Username" {
+    send "${user}\r"
+    exp_continue
+  }
+  "Password" {
+    send "${pass}\r"
+    exp_continue
+  }
+
+}
+expect eof

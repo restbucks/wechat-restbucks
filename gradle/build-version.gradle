@@ -1,0 +1,14 @@
+apply from: 'https://raw.githubusercontent.com/passsy/gradle-GitVersioner/master/git-versioner.gradle'
+
+ext.gitVersioner = [
+        stableBranches: ["master"]
+]
+
+task writeBuildVersion() {
+    doLast {
+        def version = file("${buildDir}/version")
+        version.text = gitVersionName
+    }
+}
+
+classes.finalizedBy(writeBuildVersion)

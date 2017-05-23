@@ -1,0 +1,9 @@
+#intelij
+.idea/
+
+#gradle
+build/
+.gradle/
+
+#local
+application-dev.yml
