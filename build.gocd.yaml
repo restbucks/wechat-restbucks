@@ -9,7 +9,7 @@ pipelines:
     materials:
       src: # this is the name of material, the name can contain only of alphanumeric & underscore characters
         # keyword git says about type of material and url at once
-        git: https://github.com/Hippoom/wechat-restbucks.git
+        git: https://github.com/restbucks/wechat-restbucks.git
     stages: # list of stages in order
       - build: # name of stage
           jobs:
