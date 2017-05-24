@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.restbucks.wechat.bff.wechat.WeChatMessageDispatcher;
 import org.restbucks.wechat.bff.wechat.WeChatRuntime;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,9 @@ public class WeChatWebhookEndpoint {
 
     @NonNull
     private final WeChatRuntime weChatRuntime;
+
+    @NonNull
+    private final WeChatMessageDispatcher messageDispatcher;
 
     @RequestMapping(value = "/webhooks/wechat", method = GET)
     protected String handleAuthentication(@RequestParam String signature,
@@ -37,6 +41,7 @@ public class WeChatWebhookEndpoint {
     @RequestMapping(value = "/webhooks/wechat", method = POST)
     protected void on(@RequestBody String payload) {
         log.debug("receiving {}", payload);
+        messageDispatcher.dispatch(payload);
     }
 
 }
