@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 @Data
 public class WeChatRuntime {
 
+    private String appId = "yourAppId";
+    private String appSecret = "yourAppSecret";
     private String token = "aRandomString";
 
     public String calculateSignatureWith(String timestamp, String nonce) {
