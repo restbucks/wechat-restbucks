@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "wechat.token",
+      "type": "java.lang.String",
+      "description": "Description for wechat.token."
+    }
+  ]
+}
