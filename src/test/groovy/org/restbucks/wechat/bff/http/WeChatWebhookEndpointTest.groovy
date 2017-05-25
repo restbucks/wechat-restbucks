@@ -2,7 +2,7 @@ package org.restbucks.wechat.bff.http
 
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.restbucks.wechat.bff.wechat.WeChatMessageDispatcher
+import org.restbucks.wechat.bff.wechat.messaging.WeChatMessageDispatcher
 import org.restbucks.wechat.bff.wechat.WeChatRuntime
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
