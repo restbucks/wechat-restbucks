@@ -1,0 +1,5 @@
+include::{snippets}/wechat/user/profile/me/http-request.adoc[]
+include::{snippets}/wechat/user/profile/me/request-headers.adoc[]
+include::{snippets}/wechat/user/profile/me/http-response.adoc[]
+include::{snippets}/wechat/user/profile/me/response-fields.adoc[]
+include::{snippets}/wechat/user/profile/me/links.adoc[]

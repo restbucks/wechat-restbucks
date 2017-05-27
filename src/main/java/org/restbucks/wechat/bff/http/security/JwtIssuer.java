@@ -3,6 +3,8 @@ package org.restbucks.wechat.bff.http.security;
 import static io.jsonwebtoken.SignatureAlgorithm.HS512;
 import static java.lang.String.format;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import java.util.Date;
@@ -51,6 +53,24 @@ public class JwtIssuer {
         } catch (Exception exception) {
             throw new CannotIssueJwtException(format("Cannot issue jwt with %s and %s due to %s",
                 openId, claims, exception.getMessage()), exception);
+        }
+    }
+
+    public OpenId verified(String userJwt, String csrfToken) {
+        try {
+            Jws<Claims> claims = Jwts.parser().setSigningKey(signingKey).parseClaimsJws(userJwt);
+            String expectCsrfToken = (String) claims.getBody().get("csrfToken");
+            if (expectCsrfToken.equals(csrfToken)) {
+                return OpenId.valueOf(claims.getBody().getSubject());
+            } else {
+                throw new CannotVerifyJwtException(
+                    format("Cannot verify csrf token, expect [%s], got [%s]", expectCsrfToken,
+                        csrfToken));// should I return expect and actual?
+            }
+            //OK, we can trust this JWT
+        } catch (Exception exception) {
+            throw new CannotVerifyJwtException(
+                format("Cannot verify jwt token due to %s", exception.getMessage()), exception);
         }
     }
 }
