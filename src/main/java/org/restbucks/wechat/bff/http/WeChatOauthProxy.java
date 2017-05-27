@@ -33,7 +33,8 @@ public class WeChatOauthProxy {
         final String endpointUrl = appRuntime.getPublicUri("/webhooks/wechat/oauth");
 
         String redirect = format(
-            "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s#wechat_redirect",
+            "https://open.weixin.qq.com/connect/oauth2/authorize"
+                + "?appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s#wechat_redirect",
             weChatRuntime.getAppId(),
             URLEncoder.encode(endpointUrl, "UTF-8"),
             "snsapi_base", // cannot get user profile with "snsapi_base", got unauthorized

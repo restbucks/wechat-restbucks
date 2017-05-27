@@ -14,7 +14,7 @@ class WeChatMessageDispatcherSpecs extends Specification {
 
     def messageSender = Mock(WeChatMessageSender)
 
-    def objectMapper = new WeChatConfig().xmlMapperForWeChatMessage()
+    def objectMapper = new WeChatConfig(new WeChatRuntime()).xmlMapperForWeChatMessage()
 
     def publicBaseUri = "https://wechat.restbucks.org"
 

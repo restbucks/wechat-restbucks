@@ -2,23 +2,28 @@ package org.restbucks.wechat.bff.http
 
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.restbucks.wechat.bff.wechat.messaging.WeChatMessageDispatcher
 import org.restbucks.wechat.bff.wechat.WeChatRuntime
+import org.restbucks.wechat.bff.wechat.WeChatUserOauthAccessToken
+import org.restbucks.wechat.bff.wechat.WeChatUserOauthAccessTokenFixture
+import org.restbucks.wechat.bff.wechat.WeChatUserStore
+import org.restbucks.wechat.bff.wechat.messaging.WeChatMessageDispatcher
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.MvcResult
 
-import static org.hamcrest.Matchers.equalTo
-import static org.hamcrest.Matchers.not
+import javax.servlet.http.Cookie
+
+import static org.hamcrest.Matchers.*
+import static org.junit.Assert.assertThat
 import static org.mockito.BDDMockito.given
 import static org.mockito.Mockito.verify
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 @RunWith(SpringRunner)
 @WebMvcTest([IndexRestController, WeChatWebhookEndpoint])
@@ -32,6 +37,15 @@ class WeChatWebhookEndpointTest {
 
     @MockBean
     private WeChatMessageDispatcher messageDispatcher
+
+    @MockBean
+    private WeChatUserStore userStore
+
+    @MockBean
+    private CsrfTokenGenerator csrfTokenGenerator
+
+    @MockBean
+    private JwtIssuer jwtIssuer
 
     @Test
     void returns_echostr_to_get_authenticated_by_wechat_server() {
@@ -101,5 +115,45 @@ class WeChatWebhookEndpointTest {
         // @formatter:on
 
         verify(messageDispatcher).dispatch(payload)
+    }
+
+
+    @Test
+    void it_should_redirect_user_to_origin_uri_when_wechat_oauth_is_finished() throws Exception {
+
+        String code = "codeToExchangeWeChatUserAccessToken"
+        String state = "http://www.example.com/index.html?a=b#/route"
+        String csrfToken = "csrfToken"
+        WeChatUserOauthAccessToken accessToken = new WeChatUserOauthAccessTokenFixture().build()
+        String userJwt = "userJwt"
+
+        given(userStore.exchangeAccessTokenWith(code))
+                .willReturn(accessToken)
+        given(csrfTokenGenerator.generate())
+                .willReturn(csrfToken)
+        given(jwtIssuer.buildUserJwt(accessToken.openId, csrfToken))
+                .willReturn(userJwt)
+
+        MvcResult mvcResult = this.mockMvc.perform(get("/webhooks/wechat/oauth")
+                .param("state", state) // it seems that the controller will decode the parameter automatically only for browser request
+                .param("code", code))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl(state))
+                .andReturn()
+
+
+        Cookie userCookie = mvcResult.getResponse().getCookie("wechat.restbucks.org.user")
+        Cookie csrfTokenCookie = mvcResult.getResponse().getCookie("wechat.restbucks.org.csrfToken")
+
+        // verify userCookie
+        assertThat(userCookie.getValue(), is(userJwt))
+        assertThat(userCookie.isHttpOnly(), is(true))
+        assertThat(userCookie.getMaxAge(), is(jwtIssuer.getExpiresInSeconds()))
+
+        // verify csrfTokenCookie
+        assertThat(csrfTokenCookie.getValue(), is(csrfToken))
+        assertThat(csrfTokenCookie.isHttpOnly(), is(false))
+        assertThat(csrfTokenCookie.getMaxAge(), is(jwtIssuer.getExpiresInSeconds()))
     }
 }

@@ -16,6 +16,7 @@ public class WeChatRuntime {
     private String appId = "yourAppId";
     private String appSecret = "yourAppSecret";
     private String token = "aRandomString";
+    private String apiBaseUri = "https://api.wechat.com";
 
     public String calculateSignatureWith(String timestamp, String nonce) {
         return DigestUtils.sha1Hex(
