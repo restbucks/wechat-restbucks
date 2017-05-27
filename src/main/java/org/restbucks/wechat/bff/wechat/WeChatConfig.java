@@ -25,7 +25,7 @@ public class WeChatConfig {
     }
 
     @Bean(name = "wechat.RestTemplate")
-    protected RestTemplate restTemplate() {
+    public RestTemplate restTemplate() {
         DefaultUriTemplateHandler uriTemplateHandler = new DefaultUriTemplateHandler();
         uriTemplateHandler.setBaseUrl(weChatRuntime.getApiBaseUri());
 
