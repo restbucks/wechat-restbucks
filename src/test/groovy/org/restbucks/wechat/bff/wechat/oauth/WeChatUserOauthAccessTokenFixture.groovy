@@ -1,4 +1,4 @@
-package org.restbucks.wechat.bff.wechat
+package org.restbucks.wechat.bff.wechat.oauth
 
 class WeChatUserOauthAccessTokenFixture {
 

@@ -1,4 +1,4 @@
-package org.restbucks.wechat.bff.http;
+package org.restbucks.wechat.bff.http.security;
 
 import java.security.SecureRandom;
 import org.apache.tomcat.util.codec.binary.Base64;

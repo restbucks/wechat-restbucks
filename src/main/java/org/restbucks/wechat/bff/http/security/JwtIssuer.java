@@ -1,4 +1,4 @@
-package org.restbucks.wechat.bff.http;
+package org.restbucks.wechat.bff.http.security;
 
 import static io.jsonwebtoken.SignatureAlgorithm.HS512;
 import static java.lang.String.format;
@@ -13,7 +13,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.restbucks.wechat.bff.time.Clock;
-import org.restbucks.wechat.bff.wechat.OpenId;
+import org.restbucks.wechat.bff.wechat.oauth.OpenId;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 

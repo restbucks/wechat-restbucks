@@ -1,7 +1,8 @@
-package org.restbucks.wechat.bff.wechat;
+package org.restbucks.wechat.bff.wechat.oauth;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import org.restbucks.wechat.bff.wechat.WeChatRuntime;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
