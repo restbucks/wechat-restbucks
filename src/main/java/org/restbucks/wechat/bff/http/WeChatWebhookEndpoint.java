@@ -42,7 +42,7 @@ public class WeChatWebhookEndpoint {
     @NonNull
     private final JwtIssuer jwtIssuer;
 
-    @RequestMapping(value = "/webhooks/wechat", method = GET)
+    @RequestMapping(value = "/webhooks/wechat/messaging", method = GET)
     protected String handleAuthentication(@RequestParam String signature,
         @RequestParam String echostr,
         @RequestParam String timestamp,
@@ -55,7 +55,7 @@ public class WeChatWebhookEndpoint {
 
     }
 
-    @RequestMapping(value = "/webhooks/wechat", method = POST)
+    @RequestMapping(value = "/webhooks/wechat/messaging", method = POST)
     protected void on(@RequestBody String payload) {
         log.debug("receiving {}", payload);
         messageDispatcher.dispatch(payload);

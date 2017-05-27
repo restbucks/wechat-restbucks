@@ -59,7 +59,7 @@ class WeChatWebhookEndpointTest {
 
         // @formatter:off
         this.mockMvc.perform(
-                    get("/webhooks/wechat")
+                    get("/webhooks/wechat/messaging")
                     .param("signature", "good")
                     .param("echostr", "echostr")
                     .param("timestamp", timestamp)
@@ -81,7 +81,7 @@ class WeChatWebhookEndpointTest {
 
         // @formatter:off
         this.mockMvc.perform(
-                    get("/webhooks/wechat")
+                    get("/webhooks/wechat/messaging")
                     .param("signature", "bad")
                     .param("echostr", "echostr")
                     .param("timestamp", timestamp)
@@ -109,7 +109,7 @@ class WeChatWebhookEndpointTest {
         """
         // @formatter:off
         this.mockMvc.perform(
-                    post("/webhooks/wechat")
+                    post("/webhooks/wechat/messaging")
                     .content(payload)
                 )
                 .andDo(print())
