@@ -33,7 +33,7 @@ class WeChatApiAccessTokenStoreTest {
         givenThat(get(urlEqualTo("/cgi-bin/token?grant_type=client_credential" +
                 "&appid=${weChatRuntime.appId}&secret=${weChatRuntime.appSecret}"))
                 .willReturn(aResponse()
-                .withHeader("Content-Type", "application/json")
+                .withHeader("Content-Type", "text/plain")
                 .withBody("""
                     {
                         "access_token": "ACCESS_TOKEN",

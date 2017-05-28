@@ -40,10 +40,10 @@ class WeChatLearningTest {
         def ticket = restTemplate.postForObject("https://api.wechat.com/cgi-bin/qrcode/create?access_token={token}",
                 """
                     {
-                        "action_name": "QR_LIMIT_SCENE", 
+                        "action_name": "QR_LIMIT_STR_SCENE", 
                         "action_info": { 
                             "scene": {
-                                "scene_str": "STORE_123"
+                                "scene_str": "STORE_125"
                             }
                         }
                     }

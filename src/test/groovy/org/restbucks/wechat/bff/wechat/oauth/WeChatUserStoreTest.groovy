@@ -47,7 +47,7 @@ class WeChatUserStoreTest {
                 + "?appid=${weChatRuntime.appId}&secret=${weChatRuntime.appSecret}"
                 + "&code=${code}&grant_type=authorization_code"))
                 .willReturn(aResponse()
-                .withHeader("Content-Type", "application/json")
+                .withHeader("Content-Type", "text/plain")
                 .withBody("""
                     {
                        "access_token":"ACCESS_TOKEN",
@@ -78,7 +78,7 @@ class WeChatUserStoreTest {
         givenThat(get(urlEqualTo("/cgi-bin/user/info?" +
                 "access_token=${apiToken.accessToken}&openid=${profile.openId.value}&lang=zh_CN"))
                 .willReturn(aResponse()
-                .withHeader("Content-Type", "application/json")
+                .withHeader("Content-Type", "text/plain")
                 .withBody("""
                     {
                         "subscribe": 1, 
