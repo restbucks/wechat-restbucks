@@ -23,7 +23,7 @@ public class WeChatMessageDispatcher {
     @Autowired
     public WeChatMessageDispatcher(
         WeChatMessageSender messageSender,
-        @Qualifier("xmlMapperForWeChatMessage") ObjectMapper xmlMapper) {
+        @Qualifier("wechat.XmlMapper") ObjectMapper xmlMapper) {
         this.messageSender = messageSender;
         this.xmlMapper = xmlMapper;
     }

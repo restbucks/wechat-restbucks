@@ -21,8 +21,8 @@ public class WeChatConfig {
     @NonNull
     private final WeChatRuntime weChatRuntime;
 
-    @Bean
-    protected XmlMapper xmlMapperForWeChatMessage() {
+    @Bean(name = "wechat.XmlMapper")
+    protected XmlMapper xmlMapper() {
         XmlMapper objectMapper = new XmlMapper();
         objectMapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
         return objectMapper;
