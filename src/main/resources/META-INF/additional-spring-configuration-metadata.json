@@ -4,6 +4,21 @@
       "name": "wechat.token",
       "type": "java.lang.String",
       "description": "Description for wechat.token."
+    },
+    {
+      "name": "wechat.appId",
+      "type": "java.lang.String",
+      "description": "Description for wechat.appId."
+    },
+    {
+      "name": "wechat.appSecret",
+      "type": "java.lang.String",
+      "description": "Description for wechat.appSecret."
+    },
+    {
+      "name": "app.publicBaseUri",
+      "type": "java.lang.String",
+      "description": "Description for app.publicBaseUri."
     }
   ]
 }
