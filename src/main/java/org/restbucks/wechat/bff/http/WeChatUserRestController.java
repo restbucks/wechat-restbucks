@@ -31,8 +31,9 @@ public class WeChatUserRestController {
     private final WeChatUserStore userStore;
 
     @RequestMapping(value = "/rel/wechat/user/profile/me", method = GET)
-    public WeChatUserProfileResource me(@CookieValue("wechat.restbucks.org.user") String userJwt,
-        @RequestHeader("x-csrf-token") String csrfToken) {
+    public WeChatUserProfileResource me(
+        @CookieValue(value = "wechat.restbucks.org.user", required = false) String userJwt,
+        @RequestHeader(value = "x-csrf-token", required = false) String csrfToken) {
         OpenId openId = jwtIssuer.verified(userJwt, csrfToken);
         WeChatUserProfile userProfile = userStore.findUserProfile(openId);
         return userResourceAssembler.toResource(userProfile);
