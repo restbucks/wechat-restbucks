@@ -2,6 +2,10 @@ package org.restbucks.wechat.bff.http
 
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.restbucks.wechat.bff.http.security.JwtAuthenticationProvider
+import org.restbucks.wechat.bff.http.security.JwtIssuer
+import org.restbucks.wechat.bff.http.security.RestAuthenticationEntryPoint
+import org.restbucks.wechat.bff.time.Clock
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -17,7 +21,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner)
 @WebMvcTest
-        ([IndexRestController])
+        ([IndexRestController,
+                HttpSecurityConfig,
+                RestAuthenticationEntryPoint,
+                JwtAuthenticationProvider,
+                JwtIssuer,
+                Clock])
 @AutoConfigureRestDocs(outputDir = "build/generated-snippets")
 class IndexRestControllerTest {
 
@@ -29,7 +38,7 @@ class IndexRestControllerTest {
 
         // @formatter:off
         this.mockMvc.perform(
-                    get("/rel/index")
+                    get("/index")
                 )
 	            .andExpect(status().isOk())
                 .andDo(print())

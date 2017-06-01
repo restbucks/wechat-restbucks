@@ -26,7 +26,7 @@ public class WeChatUserProfileResourceAssembler extends
         resource
             .add(
                 linkTo(methodOn(WeChatUserRestController.class)
-                    .me(null, null)).withSelfRel());
+                    .me(entity.getOpenId())).withSelfRel());
         return resource;
     }
 }

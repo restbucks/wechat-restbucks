@@ -3,12 +3,15 @@ package org.restbucks.wechat.bff.http
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.restbucks.wechat.bff.http.security.CsrfTokenGenerator
+import org.restbucks.wechat.bff.http.security.JwtAuthenticationProvider
 import org.restbucks.wechat.bff.http.security.JwtIssuer
+import org.restbucks.wechat.bff.http.security.RestAuthenticationEntryPoint
+import org.restbucks.wechat.bff.time.Clock
 import org.restbucks.wechat.bff.wechat.WeChatRuntime
+import org.restbucks.wechat.bff.wechat.messaging.WeChatMessageDispatcher
 import org.restbucks.wechat.bff.wechat.oauth.WeChatUserOauthAccessToken
 import org.restbucks.wechat.bff.wechat.oauth.WeChatUserOauthAccessTokenFixture
 import org.restbucks.wechat.bff.wechat.oauth.WeChatUserStore
-import org.restbucks.wechat.bff.wechat.messaging.WeChatMessageDispatcher
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -28,7 +31,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 @RunWith(SpringRunner)
-@WebMvcTest([IndexRestController, WeChatWebhookEndpoint])
+@WebMvcTest([IndexRestController,
+        WeChatWebhookEndpoint,
+        HttpSecurityConfig,
+        RestAuthenticationEntryPoint,
+        JwtAuthenticationProvider,
+        JwtIssuer,
+        Clock])
 class WeChatWebhookEndpointTest {
 
     @Autowired

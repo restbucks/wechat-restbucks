@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class IndexRestController {
 
-    @RequestMapping(value = "/rel/index", method = GET)
+    @RequestMapping(value = "/index", method = GET)
     public Resource index() {
         return new Resource<>("",
             linkTo(methodOn(IndexRestController.class).index()).withSelfRel());

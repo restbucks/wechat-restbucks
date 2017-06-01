@@ -3,6 +3,10 @@ package org.restbucks.wechat.bff.http
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.restbucks.wechat.bff.AppRuntime
+import org.restbucks.wechat.bff.http.security.JwtAuthenticationProvider
+import org.restbucks.wechat.bff.http.security.JwtIssuer
+import org.restbucks.wechat.bff.http.security.RestAuthenticationEntryPoint
+import org.restbucks.wechat.bff.time.Clock
 import org.restbucks.wechat.bff.wechat.WeChatRuntime
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -16,7 +20,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @RunWith(SpringRunner)
-@WebMvcTest([WeChatOauthProxy, AppRuntime, WeChatRuntime])
+@WebMvcTest([WeChatOauthProxy,
+        AppRuntime,
+        WeChatRuntime,
+        HttpSecurityConfig,
+        RestAuthenticationEntryPoint,
+        JwtAuthenticationProvider,
+        JwtIssuer,
+        Clock])
 class WeChatOauthProxyTest {
 
     @Autowired
@@ -37,7 +48,11 @@ class WeChatOauthProxyTest {
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl(
-                """https://open.weixin.qq.com/connect/oauth2/authorize?appid=${weChatRuntime.getAppId()}&redirect_uri=${redirectUri}&response_type=code&scope=snsapi_base&state=${encodedOrigin}#wechat_redirect""",
+                """https://open.weixin.qq.com/connect/oauth2/authorize?appid=${
+                    weChatRuntime.getAppId()
+                }&redirect_uri=${redirectUri}&response_type=code&scope=snsapi_base&state=${
+                    encodedOrigin
+                }#wechat_redirect""",
         ))
 
     }

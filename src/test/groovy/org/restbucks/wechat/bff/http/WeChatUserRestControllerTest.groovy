@@ -3,7 +3,10 @@ package org.restbucks.wechat.bff.http
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.restbucks.wechat.bff.http.assembler.WeChatUserProfileResourceAssembler
+import org.restbucks.wechat.bff.http.security.JwtAuthenticationProvider
 import org.restbucks.wechat.bff.http.security.JwtIssuer
+import org.restbucks.wechat.bff.http.security.RestAuthenticationEntryPoint
+import org.restbucks.wechat.bff.time.Clock
 import org.restbucks.wechat.bff.wechat.oauth.WeChatUserOauthAccessTokenFixture
 import org.restbucks.wechat.bff.wechat.oauth.WeChatUserProfileFixture
 import org.restbucks.wechat.bff.wechat.oauth.WeChatUserStore
@@ -28,7 +31,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @RunWith(SpringRunner)
-@WebMvcTest([WeChatUserRestController, WeChatUserProfileResourceAssembler])
+@WebMvcTest([WeChatUserRestController,
+        WeChatUserProfileResourceAssembler,
+        HttpSecurityConfig,
+        RestAuthenticationEntryPoint,
+        JwtAuthenticationProvider,
+        JwtIssuer,
+        Clock])
 @AutoConfigureRestDocs(outputDir = "build/generated-snippets")
 class WeChatUserRestControllerTest {
 
