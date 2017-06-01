@@ -1,22 +1,8 @@
 package org.restbucks.wechat.bff.http
 
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.restbucks.wechat.bff.http.security.CsrfTokenGenerator
-import org.restbucks.wechat.bff.http.security.JwtAuthenticationProvider
-import org.restbucks.wechat.bff.http.security.JwtIssuer
-import org.restbucks.wechat.bff.http.security.RestAuthenticationEntryPoint
-import org.restbucks.wechat.bff.time.Clock
-import org.restbucks.wechat.bff.wechat.WeChatRuntime
-import org.restbucks.wechat.bff.wechat.messaging.WeChatMessageDispatcher
 import org.restbucks.wechat.bff.wechat.oauth.WeChatUserOauthAccessToken
 import org.restbucks.wechat.bff.wechat.oauth.WeChatUserOauthAccessTokenFixture
-import org.restbucks.wechat.bff.wechat.oauth.WeChatUserStore
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.test.context.junit4.SpringRunner
-import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
 
 import javax.servlet.http.Cookie
@@ -30,33 +16,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
-@RunWith(SpringRunner)
-@WebMvcTest([IndexRestController,
-        WeChatWebhookEndpoint,
-        HttpSecurityConfig,
-        RestAuthenticationEntryPoint,
-        JwtAuthenticationProvider,
-        JwtIssuer,
-        Clock])
-class WeChatWebhookEndpointTest {
-
-    @Autowired
-    private MockMvc mockMvc
-
-    @MockBean
-    private WeChatRuntime weChatRuntime
-
-    @MockBean
-    private WeChatMessageDispatcher messageDispatcher
-
-    @MockBean
-    private WeChatUserStore userStore
-
-    @MockBean
-    private CsrfTokenGenerator csrfTokenGenerator
-
-    @MockBean
-    private JwtIssuer jwtIssuer
+class WeChatWebhookEndpointTest extends AbstractWebMvcTest {
 
     @Test
     void returns_echostr_to_get_authenticated_by_wechat_server() {
@@ -125,7 +85,7 @@ class WeChatWebhookEndpointTest {
 	            .andExpect(status().isOk())
         // @formatter:on
 
-        verify(messageDispatcher).dispatch(payload)
+        verify(weChatMessageDispatcher).dispatch(payload)
     }
 
 
@@ -138,7 +98,7 @@ class WeChatWebhookEndpointTest {
         WeChatUserOauthAccessToken accessToken = new WeChatUserOauthAccessTokenFixture().build()
         String userJwt = "userJwt"
 
-        given(userStore.exchangeAccessTokenWith(code))
+        given(weChatUserStore.exchangeAccessTokenWith(code))
                 .willReturn(accessToken)
         given(csrfTokenGenerator.generate())
                 .willReturn(csrfToken)
