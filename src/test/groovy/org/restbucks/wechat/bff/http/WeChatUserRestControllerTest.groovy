@@ -1,10 +1,7 @@
 package org.restbucks.wechat.bff.http
 
 import org.junit.Test
-import org.restbucks.wechat.bff.wechat.oauth.WeChatUserOauthAccessTokenFixture
 import org.restbucks.wechat.bff.wechat.oauth.WeChatUserProfileFixture
-
-import javax.servlet.http.Cookie
 
 import static org.mockito.BDDMockito.given
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName
@@ -22,20 +19,14 @@ class WeChatUserRestControllerTest extends AbstractWebMvcTest {
     @Test
     void returns_wechat_user_profile() {
 
-        def userJwt = "aUserJwt"
-        def csrfToken = "csrfToken"
-        def userToken = new WeChatUserOauthAccessTokenFixture().build()
-        def userProfile = new WeChatUserProfileFixture().with(userToken.openId).build()
+        def userProfile = new WeChatUserProfileFixture().build()
 
-        given(jwtIssuer.verified(userJwt, csrfToken)).willReturn(userToken.openId)
-
-        given(weChatUserStore.findUserProfile(userToken.openId)).willReturn(userProfile)
+        given(weChatUserStore.findUserProfile(userProfile.openId)).willReturn(userProfile)
 
         // @formatter:off
         this.mockMvc.perform(
                     get("/rel/wechat/user/profile/me")
-                    .cookie(new Cookie("wechat.restbucks.org.user", userJwt))
-                    .header("x-csrf-token", csrfToken)
+                    .with(weChatUser().with(userProfile.openId))
                 )
                 .andDo(print())
 	            .andExpect(status().isOk())

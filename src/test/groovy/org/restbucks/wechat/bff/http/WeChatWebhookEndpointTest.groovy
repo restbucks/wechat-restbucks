@@ -1,8 +1,10 @@
 package org.restbucks.wechat.bff.http
 
 import org.junit.Test
+import org.restbucks.wechat.bff.http.security.JwtIssuer
 import org.restbucks.wechat.bff.wechat.oauth.WeChatUserOauthAccessToken
 import org.restbucks.wechat.bff.wechat.oauth.WeChatUserOauthAccessTokenFixture
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.web.servlet.MvcResult
 
 import javax.servlet.http.Cookie
@@ -17,6 +19,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 class WeChatWebhookEndpointTest extends AbstractWebMvcTest {
+
+    @MockBean
+    private JwtIssuer jwtIssuer
 
     @Test
     void returns_echostr_to_get_authenticated_by_wechat_server() {
