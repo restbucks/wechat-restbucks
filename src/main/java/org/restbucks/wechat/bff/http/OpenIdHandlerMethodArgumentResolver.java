@@ -1,6 +1,7 @@
 package org.restbucks.wechat.bff.http;
 
 import org.restbucks.wechat.bff.http.security.CurrentWeChatUser;
+import org.restbucks.wechat.bff.http.security.WeChatUserAdapter;
 import org.restbucks.wechat.bff.wechat.oauth.OpenId;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,13 +24,16 @@ public class OpenIdHandlerMethodArgumentResolver implements HandlerMethodArgumen
         ModelAndViewContainer modelAndViewContainer,
         NativeWebRequest nativeWebRequest,
         WebDataBinderFactory webDataBinderFactory) throws Exception {
+
+        WeChatUserAdapter user = (WeChatUserAdapter) SecurityContextHolder.getContext()
+            .getAuthentication();
+
         CurrentWeChatUser weChatUser = methodParameter
             .getParameterAnnotation(CurrentWeChatUser.class);
         if (weChatUser == null) {
             return null;
         }
 
-        return SecurityContextHolder.getContext().getAuthentication()
-            .getPrincipal();
+        return user.getPrincipal();
     }
 }

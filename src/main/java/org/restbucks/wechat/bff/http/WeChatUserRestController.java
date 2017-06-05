@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.restbucks.wechat.bff.http.assembler.WeChatUserProfileResourceAssembler;
 import org.restbucks.wechat.bff.http.resource.WeChatUserProfileResource;
 import org.restbucks.wechat.bff.http.security.CurrentWeChatUser;
-import org.restbucks.wechat.bff.http.security.JwtIssuer;
 import org.restbucks.wechat.bff.wechat.oauth.OpenId;
 import org.restbucks.wechat.bff.wechat.oauth.WeChatUserProfile;
 import org.restbucks.wechat.bff.wechat.oauth.WeChatUserStore;
@@ -19,9 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class WeChatUserRestController {
-
-    @NonNull
-    private final JwtIssuer jwtIssuer;
 
     @NonNull
     private final WeChatUserProfileResourceAssembler userResourceAssembler;

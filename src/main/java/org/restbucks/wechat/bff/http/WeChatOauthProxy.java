@@ -5,6 +5,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class WeChatOauthProxy {
 
     @RequestMapping(value = "/wechat/oauth/authorize", method = GET)
     public void askWeChatWhoTheUserIs(@RequestParam(name = "origin") String origin,
+        HttpServletRequest request,
         HttpServletResponse response) throws IOException {
 
         final String endpointUrl = appRuntime.getPublicUri("/webhooks/wechat/oauth");

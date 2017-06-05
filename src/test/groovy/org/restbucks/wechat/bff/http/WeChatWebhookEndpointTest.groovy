@@ -1,27 +1,20 @@
 package org.restbucks.wechat.bff.http
 
 import org.junit.Test
-import org.restbucks.wechat.bff.http.security.JwtIssuer
 import org.restbucks.wechat.bff.wechat.oauth.WeChatUserOauthAccessToken
 import org.restbucks.wechat.bff.wechat.oauth.WeChatUserOauthAccessTokenFixture
-import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.test.web.servlet.MvcResult
 
-import javax.servlet.http.Cookie
-
-import static org.hamcrest.Matchers.*
-import static org.junit.Assert.assertThat
+import static org.hamcrest.Matchers.equalTo
+import static org.hamcrest.Matchers.not
 import static org.mockito.BDDMockito.given
 import static org.mockito.Mockito.verify
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 class WeChatWebhookEndpointTest extends AbstractWebMvcTest {
-
-    @MockBean
-    private JwtIssuer jwtIssuer
 
     @Test
     void returns_echostr_to_get_authenticated_by_wechat_server() {
@@ -99,37 +92,17 @@ class WeChatWebhookEndpointTest extends AbstractWebMvcTest {
 
         String code = "codeToExchangeWeChatUserAccessToken"
         String state = "http://www.example.com/index.html?a=b#/route"
-        String csrfToken = "csrfToken"
         WeChatUserOauthAccessToken accessToken = new WeChatUserOauthAccessTokenFixture().build()
-        String userJwt = "userJwt"
 
         given(weChatUserStore.exchangeAccessTokenWith(code))
                 .willReturn(accessToken)
-        given(csrfTokenGenerator.generate())
-                .willReturn(csrfToken)
-        given(jwtIssuer.buildUserJwt(accessToken.openId, csrfToken))
-                .willReturn(userJwt)
 
-        MvcResult mvcResult = this.mockMvc.perform(get("/webhooks/wechat/oauth")
+        this.mockMvc.perform(get("/webhooks/wechat/oauth")
                 .param("state", state) // it seems that the controller will decode the parameter automatically only for browser request
                 .param("code", code))
                 .andDo(print())
+                .andExpect(authenticated().withAuthenticationPrincipal(accessToken.openId))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl(state))
-                .andReturn()
-
-
-        Cookie userCookie = mvcResult.getResponse().getCookie("wechat.restbucks.org.user")
-        Cookie csrfTokenCookie = mvcResult.getResponse().getCookie("wechat.restbucks.org.csrfToken")
-
-        // verify userCookie
-        assertThat(userCookie.getValue(), is(userJwt))
-        assertThat(userCookie.isHttpOnly(), is(true))
-        assertThat(userCookie.getMaxAge(), is(jwtIssuer.getExpiresInSeconds()))
-
-        // verify csrfTokenCookie
-        assertThat(csrfTokenCookie.getValue(), is(csrfToken))
-        assertThat(csrfTokenCookie.isHttpOnly(), is(false))
-        assertThat(csrfTokenCookie.getMaxAge(), is(jwtIssuer.getExpiresInSeconds()))
     }
 }

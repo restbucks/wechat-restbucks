@@ -3,11 +3,7 @@ package org.restbucks.wechat.bff.http
 import org.junit.runner.RunWith
 import org.restbucks.wechat.bff.AppRuntime
 import org.restbucks.wechat.bff.http.assembler.WeChatUserProfileResourceAssembler
-import org.restbucks.wechat.bff.http.security.CsrfTokenGenerator
-import org.restbucks.wechat.bff.http.security.JwtAuthenticationProvider
-import org.restbucks.wechat.bff.http.security.JwtIssuer
 import org.restbucks.wechat.bff.http.security.RestAuthenticationEntryPoint
-import org.restbucks.wechat.bff.time.Clock
 import org.restbucks.wechat.bff.wechat.WeChatRuntime
 import org.restbucks.wechat.bff.wechat.messaging.WeChatMessageDispatcher
 import org.restbucks.wechat.bff.wechat.oauth.WeChatUserStore
@@ -26,10 +22,7 @@ import org.springframework.test.web.servlet.MockMvc
         WeChatUserRestController,
         WeChatUserProfileResourceAssembler,
         HttpSecurityConfig,
-        JwtAuthenticationProvider,
-        RestAuthenticationEntryPoint,
-        JwtIssuer,
-        Clock]
+        RestAuthenticationEntryPoint]
 )
 @AutoConfigureRestDocs(outputDir = "build/generated-snippets")
 abstract class AbstractWebMvcTest {
@@ -49,13 +42,4 @@ abstract class AbstractWebMvcTest {
     @MockBean
     protected WeChatUserStore weChatUserStore
 
-    @MockBean
-    protected CsrfTokenGenerator csrfTokenGenerator
-
-    @Autowired
-    protected JwtIssuer jwtIssuer
-
-    WeChatUserRequestPostProcessor weChatUser() {
-        new WeChatUserRequestPostProcessor(jwtIssuer)
-    }
 }

@@ -4,6 +4,7 @@ import org.junit.Test
 import org.restbucks.wechat.bff.wechat.oauth.WeChatUserProfileFixture
 
 import static org.mockito.BDDMockito.given
+import static org.restbucks.wechat.bff.http.WeChatUserRequestPostProcessor.weChatUser
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.*

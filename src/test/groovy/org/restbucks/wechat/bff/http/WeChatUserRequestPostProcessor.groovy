@@ -1,21 +1,17 @@
 package org.restbucks.wechat.bff.http
 
-import org.restbucks.wechat.bff.http.security.JwtIssuer
+import org.restbucks.wechat.bff.http.security.WeChatUserAdapter
 import org.restbucks.wechat.bff.wechat.oauth.OpenId
 import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.test.web.servlet.request.RequestPostProcessor
 
-import javax.servlet.http.Cookie
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication
 
 class WeChatUserRequestPostProcessor implements RequestPostProcessor {
 
     private OpenId openId = OpenId.valueOf(UUID.randomUUID().toString())
     private String csrfToken = "csrfToken"
-    private JwtIssuer jwtIssuer
 
-    WeChatUserRequestPostProcessor(JwtIssuer jwtIssuer) {
-        this.jwtIssuer = jwtIssuer
-    }
 
     WeChatUserRequestPostProcessor with(OpenId openId) {
         this.openId = openId
@@ -30,10 +26,16 @@ class WeChatUserRequestPostProcessor implements RequestPostProcessor {
     @Override
     MockHttpServletRequest postProcessRequest(
             MockHttpServletRequest mockHttpServletRequest) {
-        mockHttpServletRequest.setCookies(new Cookie("wechat.restbucks.org.user",
-                jwtIssuer.buildUserJwt(openId, csrfToken)))
+
+        RequestPostProcessor delegate = authentication(new WeChatUserAdapter(openId))
+
         mockHttpServletRequest.addHeader("x-csrf-token", csrfToken)
-        return mockHttpServletRequest
+
+        delegate.postProcessRequest(mockHttpServletRequest)
+    }
+
+    static weChatUser() {
+        new WeChatUserRequestPostProcessor()
     }
 
 }
