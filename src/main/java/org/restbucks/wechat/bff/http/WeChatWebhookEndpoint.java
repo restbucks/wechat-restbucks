@@ -16,6 +16,8 @@ import org.restbucks.wechat.bff.wechat.messaging.WeChatMessageDispatcher;
 import org.restbucks.wechat.bff.wechat.oauth.WeChatUserOauthAccessToken;
 import org.restbucks.wechat.bff.wechat.oauth.WeChatUserStore;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,6 +36,9 @@ public class WeChatWebhookEndpoint {
 
     @NonNull
     private final WeChatUserStore userStore;
+
+    @NonNull
+    private final CsrfTokenRepository csrfTokenRepository;
 
     @RequestMapping(value = "/webhooks/wechat/messaging", method = GET)
     protected String handleAuthentication(@RequestParam String signature,
@@ -62,8 +67,17 @@ public class WeChatWebhookEndpoint {
 
         WeChatUserOauthAccessToken accessToken = userStore.exchangeAccessTokenWith(code);
 
+        WeChatUserAdapter authentication = new WeChatUserAdapter(accessToken.getOpenId());
         SecurityContextHolder.getContext()
-            .setAuthentication(new WeChatUserAdapter(accessToken.getOpenId()));
+            .setAuthentication(authentication);
+
+        this.csrfTokenRepository.saveToken(null, request, response);
+
+        CsrfToken newToken = this.csrfTokenRepository.generateToken(request);
+        this.csrfTokenRepository.saveToken(newToken, request, response);
+
+        request.setAttribute(CsrfToken.class.getName(), newToken);
+        request.setAttribute(newToken.getParameterName(), newToken);
 
         URL raw = new URL(state);
         response.sendRedirect(raw.toString());

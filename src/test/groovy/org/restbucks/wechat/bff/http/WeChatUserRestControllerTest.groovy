@@ -10,6 +10,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.*
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import static org.springframework.restdocs.payload.PayloadDocumentation.*
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
@@ -27,7 +28,7 @@ class WeChatUserRestControllerTest extends AbstractWebMvcTest {
         // @formatter:off
         this.mockMvc.perform(
                     get("/rel/wechat/user/profile/me")
-                    .with(weChatUser().with(userProfile.openId))
+                    .with(weChatUser().with(userProfile.openId)).with(csrf().asHeader())
                 )
                 .andDo(print())
 	            .andExpect(status().isOk())

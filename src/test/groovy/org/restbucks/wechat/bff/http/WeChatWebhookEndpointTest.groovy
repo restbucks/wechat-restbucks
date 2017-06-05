@@ -102,6 +102,7 @@ class WeChatWebhookEndpointTest extends AbstractWebMvcTest {
                 .param("code", code))
                 .andDo(print())
                 .andExpect(authenticated().withAuthenticationPrincipal(accessToken.openId))
+                .andExpect(cookie().exists("wechat.restbucks.org.csrfToken"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl(state))
     }

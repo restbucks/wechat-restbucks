@@ -28,9 +28,6 @@ class WeChatUserRequestPostProcessor implements RequestPostProcessor {
             MockHttpServletRequest mockHttpServletRequest) {
 
         RequestPostProcessor delegate = authentication(new WeChatUserAdapter(openId))
-
-        mockHttpServletRequest.addHeader("x-csrf-token", csrfToken)
-
         delegate.postProcessRequest(mockHttpServletRequest)
     }
 
