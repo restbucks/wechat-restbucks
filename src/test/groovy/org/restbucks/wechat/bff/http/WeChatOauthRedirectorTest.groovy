@@ -7,13 +7,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-class WeChatOauthProxyTest extends AbstractWebMvcTest {
+class WeChatOauthRedirectorTest extends AbstractWebMvcTest {
 
     @Test
     void it_should_redirect_to_wechat_to_finish_oauth_protocol() throws Exception {
 
         String origin = "http://www.example.com/index.html?a=b#/route"
-        String encodedOrigin = URLEncoder.encode(origin, "UTF-8")
+        String encodedOrigin = Base64.urlEncoder.encodeToString(origin.getBytes("UTF-8"))
         def redirectUri = "https%3A%2F%2Fwechat.restbucks.org%2Fwebhooks%2Fwechat%2Foauth"
 
         this.mockMvc.perform(get("/wechat/oauth/authorize")

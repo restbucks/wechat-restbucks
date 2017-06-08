@@ -87,23 +87,5 @@ class WeChatWebhookEndpointTest extends AbstractWebMvcTest {
     }
 
 
-    @Test
-    void it_should_redirect_user_to_origin_uri_when_wechat_oauth_is_finished() throws Exception {
 
-        String code = "codeToExchangeWeChatUserAccessToken"
-        String state = "http://www.example.com/index.html?a=b#/route"
-        WeChatUserOauthAccessToken accessToken = new WeChatUserOauthAccessTokenFixture().build()
-
-        given(weChatUserStore.exchangeAccessTokenWith(code))
-                .willReturn(accessToken)
-
-        this.mockMvc.perform(get("/webhooks/wechat/oauth")
-                .param("state", state) // it seems that the controller will decode the parameter automatically only for browser request
-                .param("code", code))
-                .andDo(print())
-                .andExpect(authenticated().withAuthenticationPrincipal(accessToken.openId))
-                .andExpect(cookie().exists("wechat.restbucks.org.csrfToken"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl(state))
-    }
 }

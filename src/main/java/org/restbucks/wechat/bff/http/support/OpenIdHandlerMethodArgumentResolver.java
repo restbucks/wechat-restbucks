@@ -1,4 +1,4 @@
-package org.restbucks.wechat.bff.http;
+package org.restbucks.wechat.bff.http.support;
 
 import org.restbucks.wechat.bff.http.security.CurrentWeChatUser;
 import org.restbucks.wechat.bff.http.security.WeChatUserAdapter;

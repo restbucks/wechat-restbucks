@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.MockMvc
 @RunWith(SpringRunner)
 @WebMvcTest(controllers = [IndexRestController,
         WeChatWebhookEndpoint,
-        WeChatOauthProxy,
+        WeChatOauthRedirector,
         WeChatUserRestController,
         WeChatUserProfileResourceAssembler,
         HttpSecurityConfig,
