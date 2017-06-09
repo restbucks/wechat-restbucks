@@ -1,3 +1,6 @@
 spring:
   application:
     name: "wechat-restbucks"
+
+session:
+  mode: map

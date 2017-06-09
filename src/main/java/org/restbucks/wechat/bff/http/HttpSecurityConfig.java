@@ -19,6 +19,8 @@ import org.springframework.security.web.csrf.CsrfAuthenticationStrategy;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.session.MapSessionRepository;
+import org.springframework.session.SessionRepository;
 
 @Configuration
 @RequiredArgsConstructor
@@ -79,5 +81,10 @@ public class HttpSecurityConfig extends WebSecurityConfigurerAdapter {
         filter.setAuthenticationSuccessHandler(new WeChatOauthAuthenticationSuccessHandler());
         filter.setSessionAuthenticationStrategy(sessionAuthenticationStrategy());
         return filter;
+    }
+
+    @Bean
+    protected SessionRepository sessionRepository() {
+        return new MapSessionRepository();
     }
 }

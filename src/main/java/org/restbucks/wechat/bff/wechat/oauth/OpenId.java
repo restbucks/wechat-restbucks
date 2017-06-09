@@ -1,9 +1,10 @@
 package org.restbucks.wechat.bff.wechat.oauth;
 
+import java.io.Serializable;
 import lombok.Value;
 
 @Value
-public class OpenId {
+public class OpenId implements Serializable {
 
     private String value;
 
