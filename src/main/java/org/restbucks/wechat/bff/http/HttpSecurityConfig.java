@@ -83,8 +83,4 @@ public class HttpSecurityConfig extends WebSecurityConfigurerAdapter {
         return filter;
     }
 
-    @Bean
-    protected SessionRepository sessionRepository() {
-        return new MapSessionRepository();
-    }
 }
