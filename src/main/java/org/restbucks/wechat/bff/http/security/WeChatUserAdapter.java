@@ -10,10 +10,10 @@ import org.springframework.security.core.GrantedAuthority;
 @SuppressFBWarnings(value = "Se", justification = "Why serializable?")
 public class WeChatUserAdapter implements Authentication {
 
-    private final OpenId openId;
+    private final String openId;
 
     public WeChatUserAdapter(OpenId openId) {
-        this.openId = openId;
+        this.openId = openId.getValue();
     }
 
     @Override
@@ -28,12 +28,12 @@ public class WeChatUserAdapter implements Authentication {
 
     @Override
     public Object getDetails() {
-        return openId;
+        return getOpenId();
     }
 
     @Override
     public Object getPrincipal() {
-        return openId;
+        return getOpenId();
     }
 
     @Override
@@ -48,6 +48,10 @@ public class WeChatUserAdapter implements Authentication {
 
     @Override
     public String getName() {
-        return openId.getValue();
+        return openId;
+    }
+
+    public OpenId getOpenId() {
+        return OpenId.valueOf(openId);
     }
 }
