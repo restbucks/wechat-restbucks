@@ -1,10 +1,9 @@
 package org.restbucks.wechat.bff.http
 
+import me.chanjar.weixin.mp.api.WxMpService
 import org.junit.runner.RunWith
 import org.restbucks.wechat.bff.AppRuntime
-import org.restbucks.wechat.bff.http.assembler.WeChatUserProfileResourceAssembler
-import org.restbucks.wechat.bff.http.security.RestAuthenticationEntryPoint
-import org.restbucks.wechat.bff.wechat.WeChatRuntime
+import org.restbucks.wechat.bff.wechat.WeChatConfig
 import org.restbucks.wechat.bff.wechat.messaging.WeChatMessageDispatcher
 import org.restbucks.wechat.bff.wechat.oauth.WeChatUserStore
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,13 +15,11 @@ import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 
 @RunWith(SpringRunner)
-@WebMvcTest(controllers = [IndexRestController,
-        WeChatWebhookEndpoint,
-        WeChatOauthRedirector,
-        WeChatUserRestController,
-        WeChatUserProfileResourceAssembler,
+@WebMvcTest(controllers = [
+        HttpMvcConfig,
         HttpSecurityConfig,
-        RestAuthenticationEntryPoint]
+        HttpSessionConfig,
+        WeChatConfig]
 )
 @AutoConfigureRestDocs(outputDir = "build/generated-snippets")
 abstract class AbstractWebMvcTest {
@@ -31,15 +28,14 @@ abstract class AbstractWebMvcTest {
     protected MockMvc mockMvc
 
     @MockBean
+    protected WeChatUserStore weChatUserStore
+
+    @MockBean
     protected WeChatMessageDispatcher weChatMessageDispatcher
 
-    @SpyBean
-    protected WeChatRuntime weChatRuntime
+    @MockBean
+    protected WxMpService weChatMpService
 
     @SpyBean
     protected AppRuntime appRuntime
-
-    @MockBean
-    protected WeChatUserStore weChatUserStore
-
 }

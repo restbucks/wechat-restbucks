@@ -22,8 +22,8 @@ class WeChatApiAccessTokenStoreTest {
     @Before
     void setup() {
         weChatRuntime = new WeChatRuntime(apiBaseUri: "http://localhost:${wireMockRule.port()}")
-        weChatConfig = new WeChatConfig(weChatRuntime)
-        subject = new WeChatApiAccessTokenStore(weChatRuntime, weChatConfig.restTemplate())
+        weChatConfig = new WeChatConfig()
+        subject = new WeChatApiAccessTokenStore(weChatRuntime, weChatConfig.restTemplate(weChatRuntime))
     }
 
     @Test

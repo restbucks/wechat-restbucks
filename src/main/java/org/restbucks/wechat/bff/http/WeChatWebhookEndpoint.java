@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.restbucks.wechat.bff.wechat.WeChatRuntime;
+import me.chanjar.weixin.mp.api.WxMpService;
 import org.restbucks.wechat.bff.wechat.messaging.WeChatMessageDispatcher;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class WeChatWebhookEndpoint {
 
     @NonNull
-    private final WeChatRuntime weChatRuntime;
+    private final WxMpService weChatRuntime;
 
     @NonNull
     private final WeChatMessageDispatcher messageDispatcher;
@@ -33,7 +33,7 @@ public class WeChatWebhookEndpoint {
         log.debug("receiving {}", request.getParameterMap());
 
         // see http://admin.wechat.com/wiki/index.php?title=Message_Authentication
-        return signature.equals(weChatRuntime.calculateSignatureWith(timestamp, nonce)) ? echostr
+        return weChatRuntime.checkSignature(timestamp, nonce, signature) ? echostr
             : "invalid authentication request";
 
     }

@@ -1,18 +1,16 @@
 package org.restbucks.wechat.bff.http
 
 import org.junit.Test
-import org.restbucks.wechat.bff.wechat.oauth.WeChatUserOauthAccessToken
-import org.restbucks.wechat.bff.wechat.oauth.WeChatUserOauthAccessTokenFixture
 
 import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.Matchers.not
 import static org.mockito.BDDMockito.given
 import static org.mockito.Mockito.verify
-import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 class WeChatWebhookEndpointTest extends AbstractWebMvcTest {
 
@@ -22,7 +20,7 @@ class WeChatWebhookEndpointTest extends AbstractWebMvcTest {
         def timestamp = "timestamp"
         def nonce = "nonce"
 
-        given(weChatRuntime.calculateSignatureWith(timestamp, nonce)).willReturn("good")
+        given(weChatMpService.checkSignature(timestamp, nonce, "good")).willReturn(true)
 
         // @formatter:off
         this.mockMvc.perform(
@@ -44,7 +42,7 @@ class WeChatWebhookEndpointTest extends AbstractWebMvcTest {
         def timestamp = "timestamp"
         def nonce = "nonce"
 
-        given(weChatRuntime.calculateSignatureWith(timestamp, nonce)).willReturn("good")
+        given(weChatMpService.checkSignature(timestamp, nonce, "bad")).willReturn(false)
 
         // @formatter:off
         this.mockMvc.perform(

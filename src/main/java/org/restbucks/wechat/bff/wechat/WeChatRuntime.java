@@ -6,11 +6,10 @@ import java.util.stream.Stream;
 import lombok.Data;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
-@Component
-@ConfigurationProperties(prefix = "wechat")
+
 @Data
+@ConfigurationProperties(prefix = "wechat")
 public class WeChatRuntime {
 
     private String appId = "yourAppId";

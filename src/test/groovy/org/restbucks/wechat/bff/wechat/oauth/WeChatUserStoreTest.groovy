@@ -34,8 +34,8 @@ class WeChatUserStoreTest {
     void setup() {
         initMocks(this)
         weChatRuntime = new WeChatRuntime(apiBaseUri: "http://localhost:${wireMockRule.port()}")
-        weChatConfig = new WeChatConfig(weChatRuntime)
-        subject = new WeChatUserStore(weChatConfig.restTemplate(),
+        weChatConfig = new WeChatConfig()
+        subject = new WeChatUserStore(weChatConfig.restTemplate(weChatRuntime),
                 weChatRuntime, apiAccessTokenStore)
     }
 

@@ -32,8 +32,8 @@ class WeChatMessageSenderTest {
     void setup() {
         initMocks(this)
         weChatRuntime = new WeChatRuntime(apiBaseUri: "http://localhost:${wireMockRule.port()}")
-        weChatConfig = new WeChatConfig(weChatRuntime)
-        subject = new WeChatMessageSender(weChatConfig.restTemplate(),
+        weChatConfig = new WeChatConfig()
+        subject = new WeChatMessageSender(weChatConfig.restTemplate(weChatRuntime),
                 weChatRuntime, apiAccessTokenStore)
     }
 

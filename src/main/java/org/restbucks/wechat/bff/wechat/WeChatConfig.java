@@ -1,12 +1,14 @@
 package org.restbucks.wechat.bff.wechat;
 
-import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 import static java.util.Collections.singletonList;
 
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import java.nio.charset.Charset;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import me.chanjar.weixin.mp.api.WxMpConfigStorage;
+import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
+import me.chanjar.weixin.mp.api.WxMpService;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -16,20 +18,36 @@ import org.springframework.web.util.DefaultUriTemplateHandler;
 
 @Configuration
 @RequiredArgsConstructor
+@EnableConfigurationProperties(WeChatRuntime.class)
 public class WeChatConfig {
 
-    @NonNull
-    private final WeChatRuntime weChatRuntime;
+    @Bean
+    protected WeChatRuntime weChatRuntime() {
+        return new WeChatRuntime();
+    }
 
-    @Bean(name = "wechat.XmlMapper")
-    protected XmlMapper xmlMapper() {
-        XmlMapper objectMapper = new XmlMapper();
-        objectMapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
-        return objectMapper;
+    @Bean
+    @ConditionalOnMissingBean
+    protected WxMpConfigStorage configStorage() {
+        WeChatRuntime weChatRuntime = weChatRuntime();
+
+        WxMpInMemoryConfigStorage configStorage = new WxMpInMemoryConfigStorage();
+        configStorage.setAppId(weChatRuntime.getAppId());
+        configStorage.setSecret(weChatRuntime.getAppSecret());
+        configStorage.setToken(weChatRuntime.getToken());
+        return configStorage;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public WxMpService wxMpService() {
+        WxMpService wxMpService = new me.chanjar.weixin.mp.api.impl.WxMpServiceImpl();
+        wxMpService.setWxMpConfigStorage(configStorage());
+        return wxMpService;
     }
 
     @Bean(name = "wechat.RestTemplate")
-    public RestTemplate restTemplate() {
+    public RestTemplate restTemplate(WeChatRuntime weChatRuntime) {
         DefaultUriTemplateHandler uriTemplateHandler = new DefaultUriTemplateHandler();
         uriTemplateHandler.setBaseUrl(weChatRuntime.getApiBaseUri());
 
