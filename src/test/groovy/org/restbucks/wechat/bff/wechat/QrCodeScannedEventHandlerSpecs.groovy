@@ -1,9 +1,9 @@
 package org.restbucks.wechat.bff.wechat
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings
-import org.restbucks.wechat.bff.wechat.messaging.NewsMessage
+import me.chanjar.weixin.mp.api.WxMpKefuService
+import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage
 import org.restbucks.wechat.bff.wechat.messaging.QrCodeScannedEventHandler
-import org.restbucks.wechat.bff.wechat.messaging.WeChatMessageSender
 import spock.lang.Specification
 
 @SuppressFBWarnings(value = "SnVI",
@@ -12,40 +12,30 @@ class QrCodeScannedEventHandlerSpecs extends Specification {
 
     def subject
 
-    def messageSender = Mock(WeChatMessageSender)
-
-    def objectMapper = new WeChatMessagingConfig().xmlMapper()
+    def messageSender = Mock(WxMpKefuService)
 
     def publicBaseUri = "https://wechat.restbucks.org"
 
     def setup() {
-        subject = new QrCodeScannedEventHandler(messageSender, objectMapper)
+        subject = new QrCodeScannedEventHandler(messageSender)
     }
 
     def "it should dispatch message to corresponding handler"() {
 
         given: "a qrcode scanned event"
-        def payload = """
-            <xml>
-                <ToUserName><![CDATA[toUser]]></ToUserName>
-                <FromUserName><![CDATA[FromUser]]></FromUserName>
-                <CreateTime>123456789</CreateTime>
-                <MsgType><![CDATA[event]]></MsgType>
-                <Event><![CDATA[subscribe]]></Event>
-                <EventKey><![CDATA[qrscene_store_123]]></EventKey>
-                <Ticket><![CDATA[TICKET]]></Ticket>
-            </xml>
-        """
 
         when: "message dispatcher receives the event"
-        subject.dispatch(payload)
+        subject.handle("qrscene_store_123", "FromUser")
 
         then: "should send a news message"
+
         with(messageSender) {
-            1 * send(new NewsMessage("FromUser",
-                    NewsMessage.Article.builder()
-                            .title("Welcome to Restbucks Store 123")
-                            .url(publicBaseUri + "/index.html#/place-order-form/123")))
+            1 * sendKefuMessage({
+                it.toUser = "FromUser"
+                it.msgType == "NEWS"
+                it.articles.get(0).title == "Welcome to Restbucks Store 123"
+                it.articles.get(0).url == publicBaseUri + "/index.html#/place-order-form/123"
+            } as WxMpKefuMessage)
         }
 
     }

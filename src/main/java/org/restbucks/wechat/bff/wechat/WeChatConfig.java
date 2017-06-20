@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
+import me.chanjar.weixin.mp.api.WxMpKefuService;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
 import org.restbucks.wechat.bff.wechat.messaging.QrCodeScannedEventHandler;
@@ -47,6 +48,11 @@ public class WeChatConfig {
         WxMpService wxMpService = new me.chanjar.weixin.mp.api.impl.WxMpServiceImpl();
         wxMpService.setWxMpConfigStorage(configStorage());
         return wxMpService;
+    }
+
+    @Bean
+    public WxMpKefuService wxKefuService(WxMpService wxMpService) {
+        return wxMpService.getKefuService();
     }
 
     @Bean
