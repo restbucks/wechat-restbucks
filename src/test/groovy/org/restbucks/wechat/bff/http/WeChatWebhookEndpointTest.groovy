@@ -1,10 +1,12 @@
 package org.restbucks.wechat.bff.http
 
+import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage
 import org.junit.Test
 
 import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.Matchers.not
 import static org.mockito.BDDMockito.given
+import static org.mockito.Matchers.refEq
 import static org.mockito.Mockito.verify
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
@@ -81,7 +83,7 @@ class WeChatWebhookEndpointTest extends AbstractWebMvcTest {
 	            .andExpect(status().isOk())
         // @formatter:on
 
-        verify(weChatMessageDispatcher).dispatch(payload)
+        verify(wxMpMessageRouter).route(refEq(WxMpXmlMessage.fromXml(payload)))
     }
 
 

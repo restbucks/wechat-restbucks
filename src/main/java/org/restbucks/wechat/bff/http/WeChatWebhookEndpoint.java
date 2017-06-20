@@ -7,8 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
-import org.restbucks.wechat.bff.wechat.messaging.WeChatMessageDispatcher;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
+import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +25,7 @@ public class WeChatWebhookEndpoint {
     private final WxMpService weChatRuntime;
 
     @NonNull
-    private final WeChatMessageDispatcher messageDispatcher;
+    private final WxMpMessageRouter wxMpMessageRouter;
 
     @RequestMapping(value = "/webhooks/wechat/messaging", method = GET)
     protected String handleAuthentication(@RequestParam String signature,
@@ -39,9 +41,9 @@ public class WeChatWebhookEndpoint {
     }
 
     @RequestMapping(value = "/webhooks/wechat/messaging", method = POST)
-    protected void on(@RequestBody String payload) {
+    protected WxMpXmlOutMessage on(@RequestBody String payload) {
         log.debug("receiving {}", payload);
-        messageDispatcher.dispatch(payload);
+        return wxMpMessageRouter.route(WxMpXmlMessage.fromXml(payload));
     }
 
 }

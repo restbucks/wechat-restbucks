@@ -1,10 +1,10 @@
 package org.restbucks.wechat.bff.http
 
+import me.chanjar.weixin.mp.api.WxMpMessageRouter
 import me.chanjar.weixin.mp.api.WxMpService
 import org.junit.runner.RunWith
 import org.restbucks.wechat.bff.AppRuntime
 import org.restbucks.wechat.bff.wechat.WeChatConfig
-import org.restbucks.wechat.bff.wechat.messaging.WeChatMessageDispatcher
 import org.restbucks.wechat.bff.wechat.oauth.WeChatUserStore
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
@@ -31,11 +31,11 @@ abstract class AbstractWebMvcTest {
     protected WeChatUserStore weChatUserStore
 
     @MockBean
-    protected WeChatMessageDispatcher weChatMessageDispatcher
-
-    @MockBean
     protected WxMpService weChatMpService
 
     @SpyBean
     protected AppRuntime appRuntime
+
+    @MockBean
+    protected WxMpMessageRouter wxMpMessageRouter
 }

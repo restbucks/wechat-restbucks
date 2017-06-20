@@ -4,9 +4,12 @@ import static java.util.Collections.singletonList;
 
 import java.nio.charset.Charset;
 import lombok.RequiredArgsConstructor;
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
+import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
+import org.restbucks.wechat.bff.wechat.messaging.QrCodeScannedEventHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -44,6 +47,21 @@ public class WeChatConfig {
         WxMpService wxMpService = new me.chanjar.weixin.mp.api.impl.WxMpServiceImpl();
         wxMpService.setWxMpConfigStorage(configStorage());
         return wxMpService;
+    }
+
+    @Bean
+    public WxMpMessageRouter wxMpMessageRouter(
+        QrCodeScannedEventHandler qrCodeScannedEventHandler) {
+        // @formatter:off
+        WxMpMessageRouter router = new WxMpMessageRouter(wxMpService());
+        router
+            .rule()
+                .msgType(WxConsts.XML_MSG_EVENT)
+                .event(WxConsts.EVT_SCAN)
+                .handler(qrCodeScannedEventHandler)
+            .end();
+        // @formatter:on
+        return router;
     }
 
     @Bean(name = "wechat.RestTemplate")
