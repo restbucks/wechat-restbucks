@@ -21,14 +21,14 @@ class WeChatUserRestControllerTest extends AbstractWebMvcTest {
     @Test
     void returns_wechat_user_profile() {
 
-        def userProfile = new WeChatUserProfileFixture().build()
+        def userProfile = new WeChatUserProfileFixture().buildUser()
 
-        given(weChatUserStore.findUserProfile(userProfile.openId)).willReturn(userProfile)
+        given(wxMpUserService.userInfo(userProfile.openId)).willReturn(userProfile)
 
         // @formatter:off
         this.mockMvc.perform(
                     get("/rel/wechat/user/profile/me")
-                    .with(weChatUser().with(userProfile.openId)).with(csrf().asHeader())
+                    .with(weChatUser().withOpenId(userProfile.openId)).with(csrf().asHeader())
                 )
                 .andDo(print())
 	            .andExpect(status().isOk())

@@ -10,6 +10,7 @@ import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpKefuService;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.api.WxMpUserService;
 import org.restbucks.wechat.bff.wechat.messaging.QrCodeScannedEventHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -53,6 +54,11 @@ public class WeChatConfig {
     @Bean
     public WxMpKefuService wxKefuService(WxMpService wxMpService) {
         return wxMpService.getKefuService();
+    }
+
+    @Bean
+    public WxMpUserService wxMpUserService(WxMpService wxMpService) {
+        return wxMpService.getUserService();
     }
 
     @Bean

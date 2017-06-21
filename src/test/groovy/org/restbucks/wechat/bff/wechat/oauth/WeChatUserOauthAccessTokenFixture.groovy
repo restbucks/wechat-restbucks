@@ -27,6 +27,11 @@ class WeChatUserOauthAccessTokenFixture {
         target2.setScope(scope)
     }
 
+    WeChatUserOauthAccessTokenFixture with(OpenId openId) {
+        target2.setOpenId(openId.value)
+        this
+    }
+
     WeChatUserOauthAccessToken build() {
         return target
     }

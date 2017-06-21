@@ -38,6 +38,6 @@ public class WeChatOauthCallbackFilter extends AbstractAuthenticationProcessingF
 
         WxMpOAuth2AccessToken accessToken = wxMpService.oauth2getAccessToken(code);
 
-        return new WeChatUserAdapter(OpenId.valueOf(accessToken.getOpenId()));
+        return new WeChatUserAdapter(accessToken);
     }
 }

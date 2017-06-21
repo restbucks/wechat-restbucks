@@ -2,6 +2,7 @@ package org.restbucks.wechat.bff.http
 
 import me.chanjar.weixin.mp.api.WxMpMessageRouter
 import me.chanjar.weixin.mp.api.WxMpService
+import me.chanjar.weixin.mp.api.WxMpUserService
 import org.junit.runner.RunWith
 import org.restbucks.wechat.bff.AppRuntime
 import org.restbucks.wechat.bff.wechat.WeChatConfig
@@ -32,6 +33,9 @@ abstract class AbstractWebMvcTest {
 
     @MockBean
     protected WxMpService wxMpService
+
+    @MockBean
+    protected WxMpUserService wxMpUserService
 
     @SpyBean
     protected AppRuntime appRuntime

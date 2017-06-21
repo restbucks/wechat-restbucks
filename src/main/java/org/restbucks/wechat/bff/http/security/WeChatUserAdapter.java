@@ -3,6 +3,7 @@ package org.restbucks.wechat.bff.http.security;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Collection;
 import java.util.Collections;
+import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import org.restbucks.wechat.bff.wechat.oauth.OpenId;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,10 +11,10 @@ import org.springframework.security.core.GrantedAuthority;
 @SuppressFBWarnings(value = "Se", justification = "Why serializable?")
 public class WeChatUserAdapter implements Authentication {
 
-    private final String openId;
+    private final WxMpOAuth2AccessToken accessToken;
 
-    public WeChatUserAdapter(OpenId openId) {
-        this.openId = openId.getValue();
+    public WeChatUserAdapter(WxMpOAuth2AccessToken accessToken) {
+        this.accessToken = accessToken;
     }
 
     @Override
@@ -48,10 +49,10 @@ public class WeChatUserAdapter implements Authentication {
 
     @Override
     public String getName() {
-        return openId;
+        return accessToken.getOpenId();
     }
 
     public OpenId getOpenId() {
-        return OpenId.valueOf(openId);
+        return OpenId.valueOf(accessToken.getOpenId());
     }
 }

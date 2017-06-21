@@ -1,7 +1,9 @@
 package org.restbucks.wechat.bff.http
 
+import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken
 import org.restbucks.wechat.bff.http.security.WeChatUserAdapter
 import org.restbucks.wechat.bff.wechat.oauth.OpenId
+import org.restbucks.wechat.bff.wechat.oauth.WeChatUserOauthAccessTokenFixture
 import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.test.web.servlet.request.RequestPostProcessor
 
@@ -18,6 +20,10 @@ class WeChatUserRequestPostProcessor implements RequestPostProcessor {
         this
     }
 
+    WeChatUserRequestPostProcessor withOpenId(String openId) {
+        with(OpenId.valueOf(openId))
+    }
+
     WeChatUserRequestPostProcessor csrfToken(String csrfToken) {
         this.csrfToken = csrfToken
         this
@@ -26,8 +32,9 @@ class WeChatUserRequestPostProcessor implements RequestPostProcessor {
     @Override
     MockHttpServletRequest postProcessRequest(
             MockHttpServletRequest mockHttpServletRequest) {
-
-        RequestPostProcessor delegate = authentication(new WeChatUserAdapter(openId))
+        WxMpOAuth2AccessToken accessToken = new WeChatUserOauthAccessTokenFixture()
+                .with(openId).buildToken()
+        RequestPostProcessor delegate = authentication(new WeChatUserAdapter(accessToken))
         delegate.postProcessRequest(mockHttpServletRequest)
     }
 
