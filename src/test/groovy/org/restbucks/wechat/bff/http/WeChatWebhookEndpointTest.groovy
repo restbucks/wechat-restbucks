@@ -22,7 +22,7 @@ class WeChatWebhookEndpointTest extends AbstractWebMvcTest {
         def timestamp = "timestamp"
         def nonce = "nonce"
 
-        given(weChatMpService.checkSignature(timestamp, nonce, "good")).willReturn(true)
+        given(wxMpService.checkSignature(timestamp, nonce, "good")).willReturn(true)
 
         // @formatter:off
         this.mockMvc.perform(
@@ -44,7 +44,7 @@ class WeChatWebhookEndpointTest extends AbstractWebMvcTest {
         def timestamp = "timestamp"
         def nonce = "nonce"
 
-        given(weChatMpService.checkSignature(timestamp, nonce, "bad")).willReturn(false)
+        given(wxMpService.checkSignature(timestamp, nonce, "bad")).willReturn(false)
 
         // @formatter:off
         this.mockMvc.perform(

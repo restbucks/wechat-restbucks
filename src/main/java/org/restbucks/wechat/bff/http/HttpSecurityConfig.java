@@ -4,10 +4,10 @@ import static org.springframework.security.config.http.SessionCreationPolicy.IF_
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import me.chanjar.weixin.mp.api.WxMpService;
 import org.restbucks.wechat.bff.http.security.RestAuthenticationEntryPoint;
 import org.restbucks.wechat.bff.http.security.WeChatOauthAuthenticationSuccessHandler;
 import org.restbucks.wechat.bff.http.security.WeChatOauthCallbackFilter;
-import org.restbucks.wechat.bff.wechat.oauth.WeChatUserStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,8 +19,6 @@ import org.springframework.security.web.csrf.CsrfAuthenticationStrategy;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.session.MapSessionRepository;
-import org.springframework.session.SessionRepository;
 
 @Configuration
 @RequiredArgsConstructor
@@ -31,7 +29,7 @@ public class HttpSecurityConfig extends WebSecurityConfigurerAdapter {
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
     @NonNull
-    private final WeChatUserStore weChatUserStore;
+    private final WxMpService wxMpService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
@@ -77,7 +75,7 @@ public class HttpSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private WeChatOauthCallbackFilter weChatOauthCallbackFilter(String url) {
         WeChatOauthCallbackFilter filter = new WeChatOauthCallbackFilter(url);
-        filter.setUserStore(weChatUserStore);
+        filter.setWxMpService(wxMpService);
         filter.setAuthenticationSuccessHandler(new WeChatOauthAuthenticationSuccessHandler());
         filter.setSessionAuthenticationStrategy(sessionAuthenticationStrategy());
         return filter;

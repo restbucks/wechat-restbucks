@@ -31,7 +31,7 @@ abstract class AbstractWebMvcTest {
     protected WeChatUserStore weChatUserStore
 
     @MockBean
-    protected WxMpService weChatMpService
+    protected WxMpService wxMpService
 
     @SpyBean
     protected AppRuntime appRuntime

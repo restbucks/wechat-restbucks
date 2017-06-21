@@ -1,7 +1,7 @@
 package org.restbucks.wechat.bff.http
 
+import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken
 import org.junit.Test
-import org.restbucks.wechat.bff.wechat.oauth.WeChatUserOauthAccessToken
 import org.restbucks.wechat.bff.wechat.oauth.WeChatUserOauthAccessTokenFixture
 
 import static org.mockito.BDDMockito.given
@@ -18,9 +18,9 @@ class WeChatOauthAuthenticationFilterTest extends AbstractWebMvcTest {
         String code = "codeToExchangeWeChatUserAccessToken"
         String plainUrl = "http://www.example.com/index.html?a=b#/route"
         String state = Base64.getUrlEncoder().encodeToString(plainUrl.getBytes("UTF-8"))
-        WeChatUserOauthAccessToken accessToken = new WeChatUserOauthAccessTokenFixture().build()
+        WxMpOAuth2AccessToken accessToken = new WeChatUserOauthAccessTokenFixture().buildToken()
 
-        given(weChatUserStore.exchangeAccessTokenWith(code))
+        given(wxMpService.oauth2getAccessToken(code))
                 .willReturn(accessToken)
 
         this.mockMvc.perform(get("/webhooks/wechat/oauth")

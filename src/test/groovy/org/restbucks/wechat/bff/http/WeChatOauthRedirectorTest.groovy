@@ -19,7 +19,7 @@ class WeChatOauthRedirectorTest extends AbstractWebMvcTest {
 
         def redirectUri = "https://wechat.restbucks.org/webhooks/wechat/oauth"
 
-        given(weChatMpService.oauth2buildAuthorizationUrl(redirectUri,
+        given(wxMpService.oauth2buildAuthorizationUrl(redirectUri,
                 "snsapi_base", encodedOrigin)).willReturn("https://open.weixin.qq.com")
 
 
