@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.boot.test.mock.mockito.SpyBean
+import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 
@@ -20,6 +21,8 @@ import org.springframework.test.web.servlet.MockMvc
         HttpSessionConfig]
 )
 @AutoConfigureRestDocs(outputDir = "build/generated-snippets")
+@TestPropertySource(properties = ["session.mode=none"])
+//see https://stackoverflow.com/questions/44692666/spring-session-is-not-compatible-with-mockhttpsession
 abstract class AbstractWebMvcTest {
 
     @Autowired

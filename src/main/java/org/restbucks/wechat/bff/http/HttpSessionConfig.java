@@ -10,9 +10,8 @@ import org.springframework.session.config.annotation.web.http.EnableSpringHttpSe
 //@EnableRedisHttpSession
 @Configuration
 @EnableSpringHttpSession
-@ConditionalOnProperty(name = "session.mode", havingValue = "map")
+@ConditionalOnProperty(name = "session.mode", havingValue = "map", matchIfMissing = true)
 public class HttpSessionConfig {
-
 
     @Bean
     protected SessionRepository sessionRepository() {

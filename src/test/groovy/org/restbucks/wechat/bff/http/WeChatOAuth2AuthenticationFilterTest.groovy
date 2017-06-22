@@ -5,6 +5,7 @@ import org.junit.Test
 import org.restbucks.wechat.bff.wechat.oauth.WeChatUserOAuth2AccessTokenFixture
 
 import static org.mockito.BDDMockito.given
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
@@ -29,7 +30,7 @@ class WeChatOAuth2AuthenticationFilterTest extends AbstractWebMvcTest {
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl(plainUrl))
-//                .andExpect(authenticated().withAuthenticationPrincipal(accessToken.openId))
+                .andExpect(authenticated())
                 .andExpect(cookie().exists("wechat.restbucks.org.csrfToken"))
     }
 
