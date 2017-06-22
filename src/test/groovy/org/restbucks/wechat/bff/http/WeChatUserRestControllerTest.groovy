@@ -21,7 +21,7 @@ class WeChatUserRestControllerTest extends AbstractWebMvcTest {
     @Test
     void returns_wechat_user_profile() {
 
-        def userProfile = new WeChatUserProfileFixture().buildUser()
+        def userProfile = new WeChatUserProfileFixture().build()
 
         given(wxMpUserService.userInfo(userProfile.openId)).willReturn(userProfile)
 

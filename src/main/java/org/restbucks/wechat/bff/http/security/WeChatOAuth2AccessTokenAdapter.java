@@ -9,11 +9,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 @SuppressFBWarnings(value = "Se", justification = "Why serializable?")
-public class WeChatUserAdapter implements Authentication {
+public class WeChatOAuth2AccessTokenAdapter implements Authentication {
 
     private final WxMpOAuth2AccessToken accessToken;
 
-    public WeChatUserAdapter(WxMpOAuth2AccessToken accessToken) {
+    public WeChatOAuth2AccessTokenAdapter(WxMpOAuth2AccessToken accessToken) {
         this.accessToken = accessToken;
     }
 

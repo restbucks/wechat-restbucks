@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-class WeChatOauthRedirectorTest extends AbstractWebMvcTest {
+class WeChatOAuth2AuthorizeControllerTest extends AbstractWebMvcTest {
 
     @Test
     void it_should_redirect_to_wechat_to_finish_oauth_protocol() throws Exception {
@@ -17,7 +17,7 @@ class WeChatOauthRedirectorTest extends AbstractWebMvcTest {
         String encodedOrigin = Base64.urlEncoder.encodeToString(origin.getBytes("UTF-8"))
 
 
-        def redirectUri = "https://wechat.restbucks.org/webhooks/wechat/oauth"
+        def redirectUri = "https://wechat.restbucks.org/wechat/oauth/token"
 
         given(wxMpService.oauth2buildAuthorizationUrl(redirectUri,
                 "snsapi_base", encodedOrigin)).willReturn("https://open.weixin.qq.com")

@@ -6,8 +6,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import me.chanjar.weixin.mp.api.WxMpService;
 import org.restbucks.wechat.bff.http.security.RestAuthenticationEntryPoint;
-import org.restbucks.wechat.bff.http.security.WeChatOauthAuthenticationSuccessHandler;
-import org.restbucks.wechat.bff.http.security.WeChatOauthCallbackFilter;
+import org.restbucks.wechat.bff.http.security.WeChatOAuth2AuthenticationFilter;
+import org.restbucks.wechat.bff.http.security.WeChatOAuth2AuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -53,7 +53,7 @@ public class HttpSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().requireCsrfProtectionMatcher(new AntPathRequestMatcher("/rel/**/me"))
                 .csrfTokenRepository(csrfTokenRepository())
             .and()
-                .addFilterAfter(weChatOauthCallbackFilter("/webhooks/wechat/oauth"),
+                .addFilterAfter(weChatOauthCallbackFilter("/wechat/oauth/token"),
                     CsrfFilter.class)
                 .exceptionHandling()
                 .authenticationEntryPoint(restAuthenticationEntryPoint);
@@ -73,10 +73,10 @@ public class HttpSecurityConfig extends WebSecurityConfigurerAdapter {
         return new CsrfAuthenticationStrategy(csrfTokenRepository());
     }
 
-    private WeChatOauthCallbackFilter weChatOauthCallbackFilter(String url) {
-        WeChatOauthCallbackFilter filter = new WeChatOauthCallbackFilter(url);
+    private WeChatOAuth2AuthenticationFilter weChatOauthCallbackFilter(String url) {
+        WeChatOAuth2AuthenticationFilter filter = new WeChatOAuth2AuthenticationFilter(url);
         filter.setWxMpService(wxMpService);
-        filter.setAuthenticationSuccessHandler(new WeChatOauthAuthenticationSuccessHandler());
+        filter.setAuthenticationSuccessHandler(new WeChatOAuth2AuthenticationSuccessHandler());
         filter.setSessionAuthenticationStrategy(sessionAuthenticationStrategy());
         return filter;
     }

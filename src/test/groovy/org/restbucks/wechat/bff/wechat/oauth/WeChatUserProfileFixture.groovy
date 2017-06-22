@@ -3,30 +3,20 @@ package org.restbucks.wechat.bff.wechat.oauth
 import me.chanjar.weixin.mp.bean.result.WxMpUser
 
 class WeChatUserProfileFixture {
-    private WeChatUserProfile target = new WeChatUserProfile()
-    private WxMpUser user = new WxMpUser()
+    private WxMpUser target = new WxMpUser()
 
     WeChatUserProfileFixture() {
-        target.setOpenId(OpenId.valueOf(UUID.randomUUID().toString()))
+        target.setOpenId(OpenId.valueOf(UUID.randomUUID().toString()).value)
         target.setNickname("John Doe")
-        target.setAvatar("https://avatar.com/johndoe")
-
-        user.setOpenId(OpenId.valueOf(UUID.randomUUID().toString()).value)
-        user.setNickname("John Doe")
-        user.setHeadImgUrl("https://avatar.com/johndoe")
+        target.setHeadImgUrl("https://avatar.com/johndoe")
     }
 
     WeChatUserProfileFixture with(OpenId openId) {
-        target.setOpenId(openId)
-        user.setOpenId(openId.value)
+        target.setOpenId(openId.value)
         this
     }
 
-    WeChatUserProfile build() {
+    WxMpUser build() {
         target
-    }
-
-    WxMpUser buildUser() {
-        user
     }
 }

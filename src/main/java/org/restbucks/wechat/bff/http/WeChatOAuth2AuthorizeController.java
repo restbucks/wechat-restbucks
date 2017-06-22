@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-public class WeChatOauthRedirector {
+public class WeChatOAuth2AuthorizeController {
 
     @NonNull
     private final AppRuntime appRuntime;
@@ -32,7 +32,7 @@ public class WeChatOauthRedirector {
         HttpServletRequest request,
         HttpServletResponse response) throws IOException {
 
-        final String endpointUrl = appRuntime.getPublicUri("/webhooks/wechat/oauth");
+        final String endpointUrl = appRuntime.getPublicUri("/wechat/oauth/token");
 
         String base64EncodedOrigin =
             Base64.getUrlEncoder().encodeToString(origin.getBytes(Charset.forName("UTF-8")));

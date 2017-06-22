@@ -1,8 +1,5 @@
 package org.restbucks.wechat.bff.wechat;
 
-import static java.util.Collections.singletonList;
-
-import java.nio.charset.Charset;
 import lombok.RequiredArgsConstructor;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.api.WxMpConfigStorage;
@@ -16,10 +13,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.DefaultUriTemplateHandler;
 
 @Configuration
 @RequiredArgsConstructor
@@ -74,25 +67,5 @@ public class WeChatConfig {
             .end();
         // @formatter:on
         return router;
-    }
-
-    @Bean(name = "wechat.RestTemplate")
-    public RestTemplate restTemplate(WeChatRuntime weChatRuntime) {
-        DefaultUriTemplateHandler uriTemplateHandler = new DefaultUriTemplateHandler();
-        uriTemplateHandler.setBaseUrl(weChatRuntime.getApiBaseUri());
-
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setUriTemplateHandler(uriTemplateHandler);
-
-        MappingJackson2HttpMessageConverter plainTextToJsonConverter =
-            new MappingJackson2HttpMessageConverter();
-
-        plainTextToJsonConverter.setDefaultCharset(Charset.forName("UTF-8"));
-        plainTextToJsonConverter.setSupportedMediaTypes(
-            singletonList(MediaType.TEXT_PLAIN)); // can't believe it is not application/json
-
-        restTemplate.getMessageConverters().add(plainTextToJsonConverter);
-
-        return restTemplate;
     }
 }
