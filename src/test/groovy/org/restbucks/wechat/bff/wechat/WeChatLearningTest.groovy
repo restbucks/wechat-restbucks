@@ -3,6 +3,7 @@ package org.restbucks.wechat.bff.wechat
 import groovy.json.JsonSlurper
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.restbucks.wechat.mp.WeChatMpProperties
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
@@ -19,7 +20,7 @@ class WeChatLearningTest {
     def jsonSlurper = new JsonSlurper()
 
     @Autowired
-    private WeChatRuntime weChatRuntime
+    private WeChatMpProperties weChatRuntime
 
     @Test
     void get_account_access_token() {

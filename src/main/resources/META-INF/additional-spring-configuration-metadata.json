@@ -1,24 +1,19 @@
 {
   "properties": [
     {
-      "name": "wechat.token",
+      "name": "wechat.mp.appId",
       "type": "java.lang.String",
-      "description": "Description for wechat.token."
+      "description": "WeChat MP appId."
     },
     {
-      "name": "wechat.appId",
+      "name": "wechat.mp.appSecret",
       "type": "java.lang.String",
-      "description": "Description for wechat.appId."
+      "description": "WeChat MP appSecret."
     },
     {
-      "name": "wechat.appSecret",
+      "name": "wechat.mp.token",
       "type": "java.lang.String",
-      "description": "Description for wechat.appSecret."
-    },
-    {
-      "name": "app.publicBaseUri",
-      "type": "java.lang.String",
-      "description": "Description for app.publicBaseUri."
+      "description": "WeChat MP token."
     }
   ]
 }
