@@ -3,7 +3,7 @@ package org.restbucks.wechat.bff.wechat.messaging;
 import lombok.RequiredArgsConstructor;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
-import org.restbucks.wechat.mp.messaging.WeChatInboundMessagingConfigurerAdapter;
+import org.restbucks.wechat.mp.autoconfigure.messaging.WeChatInboundMessagingConfigurerAdapter;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration

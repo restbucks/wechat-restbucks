@@ -1,4 +1,4 @@
-package org.restbucks.wechat.mp;
+package org.restbucks.wechat.mp.autoconfigure;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

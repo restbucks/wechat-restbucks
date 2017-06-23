@@ -1,4 +1,4 @@
-package org.restbucks.wechat.mp.messaging;
+package org.restbucks.wechat.mp.autoconfigure.messaging;
 
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;

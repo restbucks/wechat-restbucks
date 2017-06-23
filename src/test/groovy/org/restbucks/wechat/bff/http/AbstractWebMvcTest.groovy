@@ -18,7 +18,8 @@ import org.springframework.test.web.servlet.MockMvc
 @WebMvcTest(controllers = [
         HttpMvcConfig,
         HttpSecurityConfig,
-        HttpSessionConfig]
+        HttpSessionConfig,
+        WeChatMpHttpConfig]
 )
 @AutoConfigureRestDocs(outputDir = "build/generated-snippets")
 @TestPropertySource(properties = ["session.mode=none"])

@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-class WeChatWebhookEndpointTest extends AbstractWebMvcTest {
+class WeChatMpInboundMessageEndpointTest extends AbstractWebMvcTest {
 
     @Test
     void returns_echostr_to_get_authenticated_by_wechat_server() {
@@ -26,7 +26,7 @@ class WeChatWebhookEndpointTest extends AbstractWebMvcTest {
 
         // @formatter:off
         this.mockMvc.perform(
-                    get("/webhooks/wechat/messaging")
+                    get("/wechat/mp/webhooks/messaging")
                     .param("signature", "good")
                     .param("echostr", "echostr")
                     .param("timestamp", timestamp)
@@ -48,7 +48,7 @@ class WeChatWebhookEndpointTest extends AbstractWebMvcTest {
 
         // @formatter:off
         this.mockMvc.perform(
-                    get("/webhooks/wechat/messaging")
+                    get("/wechat/mp/webhooks/messaging")
                     .param("signature", "bad")
                     .param("echostr", "echostr")
                     .param("timestamp", timestamp)
@@ -76,7 +76,7 @@ class WeChatWebhookEndpointTest extends AbstractWebMvcTest {
         """
         // @formatter:off
         this.mockMvc.perform(
-                    post("/webhooks/wechat/messaging")
+                    post("/wechat/mp/webhooks/messaging")
                     .content(payload)
                 )
                 .andDo(print())
@@ -85,7 +85,6 @@ class WeChatWebhookEndpointTest extends AbstractWebMvcTest {
 
         verify(wxMpMessageRouter).route(refEq(WxMpXmlMessage.fromXml(payload)))
     }
-
 
 
 }

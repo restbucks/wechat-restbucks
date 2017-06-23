@@ -1,4 +1,4 @@
-package org.restbucks.wechat.bff.http;
+package org.restbucks.wechat.mp.http;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -19,15 +19,16 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class WeChatWebhookEndpoint {
+@RequestMapping(value = "/wechat/mp/webhooks/messaging")
+public class WeChatMpInboundMessageEndpoint {
 
     @NonNull
-    private final WxMpService weChatRuntime;
+    private final WxMpService wxMpService;
 
     @NonNull
     private final WxMpMessageRouter wxMpMessageRouter;
 
-    @RequestMapping(value = "/webhooks/wechat/messaging", method = GET)
+    @RequestMapping(method = GET)
     protected String handleAuthentication(@RequestParam String signature,
         @RequestParam String echostr,
         @RequestParam String timestamp,
@@ -35,15 +36,15 @@ public class WeChatWebhookEndpoint {
         log.debug("receiving {}", request.getParameterMap());
 
         // see http://admin.wechat.com/wiki/index.php?title=Message_Authentication
-        return weChatRuntime.checkSignature(timestamp, nonce, signature) ? echostr
+        return wxMpService.checkSignature(timestamp, nonce, signature) ? echostr
             : "invalid authentication request";
 
     }
 
-    @RequestMapping(value = "/webhooks/wechat/messaging", method = POST)
-    protected WxMpXmlOutMessage on(@RequestBody String payload) {
-        log.debug("receiving {}", payload);
-        return wxMpMessageRouter.route(WxMpXmlMessage.fromXml(payload));
+    @RequestMapping(method = POST)
+    protected WxMpXmlOutMessage handleInboundMessage(@RequestBody String message) {
+        log.debug("receiving {}", message);
+        return wxMpMessageRouter.route(WxMpXmlMessage.fromXml(message));
     }
 
 }
