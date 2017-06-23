@@ -3,27 +3,18 @@ package org.restbucks.wechat.bff.wechat.messaging;
 import lombok.RequiredArgsConstructor;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
-import me.chanjar.weixin.mp.api.WxMpService;
-import org.springframework.context.annotation.Bean;
+import org.restbucks.wechat.mp.messaging.WeChatInboundMessagingConfigurerAdapter;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @RequiredArgsConstructor
-public class WeChatMessagingConfiguration {
+public class WeChatMessagingConfiguration extends WeChatInboundMessagingConfigurerAdapter {
 
     private final QrCodeScannedEventHandler qrCodeScannedEventHandler;
     private final NewSubscribedEventHandler newSubscribedEventHandler;
 
-    @Bean
-    public WxMpMessageRouter wxMpMessageRouter(
-        WxMpService wxMpService) {
-        WxMpMessageRouter router = new WxMpMessageRouter(wxMpService);
-        configure(router);
-
-        return router;
-    }
-
-    private void configure(WxMpMessageRouter router) {
+    @Override
+    protected void configure(WxMpMessageRouter router) {
         // @formatter:off
         router
             .rule()
