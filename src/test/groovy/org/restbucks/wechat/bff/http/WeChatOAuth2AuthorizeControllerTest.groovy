@@ -17,7 +17,7 @@ class WeChatOAuth2AuthorizeControllerTest extends AbstractWebMvcTest {
         String encodedOrigin = Base64.urlEncoder.encodeToString(origin.getBytes("UTF-8"))
 
 
-        def redirectUri = "https://wechat.restbucks.org/wechat/oauth/token"
+        def redirectUri = "http://localhost:8080/wechat/oauth/token"
 
         given(wxMpService.oauth2buildAuthorizationUrl(redirectUri,
                 "snsapi_base", encodedOrigin)).willReturn("https://open.weixin.qq.com")
