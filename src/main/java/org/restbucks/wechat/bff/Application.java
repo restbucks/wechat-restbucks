@@ -1,8 +1,10 @@
 package org.restbucks.wechat.bff;
 
+import org.restbucks.wechat.mp.autoconfigure.annotation.EnableWeChatMpApplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@EnableWeChatMpApplication
 @SpringBootApplication
 public class Application {
 
