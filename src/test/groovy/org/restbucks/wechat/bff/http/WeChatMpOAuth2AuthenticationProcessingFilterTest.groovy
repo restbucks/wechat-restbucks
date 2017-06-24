@@ -10,7 +10,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
-class WeChatOAuth2AuthenticationFilterTest extends AbstractWebMvcTest {
+class WeChatMpOAuth2AuthenticationProcessingFilterTest extends AbstractWebMvcTest {
 
 
     @Test
@@ -31,7 +31,7 @@ class WeChatOAuth2AuthenticationFilterTest extends AbstractWebMvcTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl(plainUrl))
                 .andExpect(authenticated())
-                .andExpect(cookie().exists("wechat.restbucks.org.csrfToken"))
+                .andExpect(cookie().exists("XSRF-TOKEN"))
     }
 
 }

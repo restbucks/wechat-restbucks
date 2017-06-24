@@ -1,19 +1,17 @@
-package org.restbucks.wechat.bff.http.security;
+package org.restbucks.wechat.mp.security.authentication;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Collection;
 import java.util.Collections;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
-import org.restbucks.wechat.bff.wechat.oauth.OpenId;
+import org.restbucks.wechat.oauth.OpenId;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
-@SuppressFBWarnings(value = "Se", justification = "Why serializable?")
-public class WeChatOAuth2AccessTokenAdapter implements Authentication {
+public class WeChatMpOAuth2AccessTokenAuthentication implements Authentication {
 
     private final WxMpOAuth2AccessToken accessToken;
 
-    public WeChatOAuth2AccessTokenAdapter(WxMpOAuth2AccessToken accessToken) {
+    public WeChatMpOAuth2AccessTokenAuthentication(WxMpOAuth2AccessToken accessToken) {
         this.accessToken = accessToken;
     }
 

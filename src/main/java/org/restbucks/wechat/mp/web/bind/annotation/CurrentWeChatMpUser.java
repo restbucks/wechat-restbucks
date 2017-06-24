@@ -1,4 +1,4 @@
-package org.restbucks.wechat.bff.http.security;
+package org.restbucks.wechat.mp.web.bind.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface CurrentWeChatUser {
+public @interface CurrentWeChatMpUser {
 
 }

@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-class WeChatOAuth2AuthorizeControllerTest extends AbstractWebMvcTest {
+class WeChatMpOAuth2AuthorizeControllerTest extends AbstractWebMvcTest {
 
     @Test
     void it_should_redirect_to_wechat_to_finish_oauth_protocol() throws Exception {

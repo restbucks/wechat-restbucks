@@ -1,84 +1,14 @@
 package org.restbucks.wechat.bff.http;
 
-import static org.springframework.security.config.http.SessionCreationPolicy.IF_REQUIRED;
-
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import me.chanjar.weixin.mp.api.WxMpService;
-import org.restbucks.wechat.bff.http.security.RestAuthenticationEntryPoint;
-import org.restbucks.wechat.bff.http.security.WeChatOAuth2AuthenticationFilter;
-import org.restbucks.wechat.bff.http.security.WeChatOAuth2AuthenticationSuccessHandler;
-import org.springframework.context.annotation.Bean;
+import org.restbucks.wechat.mp.autoconfigure.web.security.WeChatMpWebSecurityConfigurerAdapter;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.CsrfAuthenticationStrategy;
-import org.springframework.security.web.csrf.CsrfFilter;
-import org.springframework.security.web.csrf.CsrfTokenRepository;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class HttpSecurityConfig extends WebSecurityConfigurerAdapter {
+public class HttpSecurityConfig extends WeChatMpWebSecurityConfigurerAdapter {
 
-    @NonNull
-    private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
-
-    @NonNull
-    private final WxMpService wxMpService;
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth)
-        throws Exception {
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        // @formatter:off
-        CookieCsrfTokenRepository cookieCsrfTokenRepository =
-            CookieCsrfTokenRepository.withHttpOnlyFalse();
-        cookieCsrfTokenRepository.setCookieName("wechat.restbucks.org.csrfToken");
-
-        http.antMatcher("/**")
-            .authorizeRequests()
-                .antMatchers("/rel/**/me").authenticated()
-                .anyRequest().permitAll()
-            .and()
-                .sessionManagement().sessionCreationPolicy(IF_REQUIRED)
-            .and()
-                .csrf().requireCsrfProtectionMatcher(new AntPathRequestMatcher("/rel/**/me"))
-                .csrfTokenRepository(csrfTokenRepository())
-            .and()
-                .addFilterAfter(weChatOauthCallbackFilter("/wechat/oauth/token"),
-                    CsrfFilter.class)
-                .exceptionHandling()
-                .authenticationEntryPoint(restAuthenticationEntryPoint);
-        // @formatter:on
-    }
-
-    @Bean
-    protected CsrfTokenRepository csrfTokenRepository() {
-        CookieCsrfTokenRepository cookieCsrfTokenRepository = CookieCsrfTokenRepository
-            .withHttpOnlyFalse();
-        cookieCsrfTokenRepository.setCookieName("wechat.restbucks.org.csrfToken");
-        return cookieCsrfTokenRepository;
-    }
-
-    @Bean
-    protected CsrfAuthenticationStrategy sessionAuthenticationStrategy() {
-        return new CsrfAuthenticationStrategy(csrfTokenRepository());
-    }
-
-    private WeChatOAuth2AuthenticationFilter weChatOauthCallbackFilter(String url) {
-        WeChatOAuth2AuthenticationFilter filter = new WeChatOAuth2AuthenticationFilter(url);
-        filter.setWxMpService(wxMpService);
-        filter.setAuthenticationSuccessHandler(new WeChatOAuth2AuthenticationSuccessHandler());
-        filter.setSessionAuthenticationStrategy(sessionAuthenticationStrategy());
-        return filter;
-    }
 
 }

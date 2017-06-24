@@ -1,6 +1,7 @@
 package org.restbucks.wechat.bff.wechat.oauth
 
 import me.chanjar.weixin.mp.bean.result.WxMpUser
+import org.restbucks.wechat.oauth.OpenId
 
 class WeChatUserProfileFixture {
     private WxMpUser target = new WxMpUser()

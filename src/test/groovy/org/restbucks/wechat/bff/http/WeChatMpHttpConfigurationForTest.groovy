@@ -1,16 +1,17 @@
 package org.restbucks.wechat.bff.http
 
-import org.springframework.context.annotation.ComponentScan
+import org.restbucks.wechat.mp.autoconfigure.web.WeChatMpWebConfiguration
+import org.restbucks.wechat.mp.autoconfigure.web.WeChatMpWebMethodConfiguration
+import org.restbucks.wechat.mp.autoconfigure.web.security.WeChatMpWebSecurityConfiguration
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.FilterType
-import org.springframework.stereotype.Controller
+import org.springframework.context.annotation.Import
 
 @Configuration
-@ComponentScan(value = "org.restbucks.wechat.mp.http",
-        includeFilters = [
-                @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Controller.class)
-        ]
-)
+@Import([
+        WeChatMpWebConfiguration,
+        WeChatMpWebSecurityConfiguration,
+        WeChatMpWebMethodConfiguration
+])
 class WeChatMpHttpConfigurationForTest {
 
 }

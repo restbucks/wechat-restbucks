@@ -1,4 +1,4 @@
-package org.restbucks.wechat.bff.wechat.oauth;
+package org.restbucks.wechat.oauth;
 
 import lombok.Value;
 

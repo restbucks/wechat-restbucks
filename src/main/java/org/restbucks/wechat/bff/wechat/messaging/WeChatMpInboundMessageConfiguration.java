@@ -3,12 +3,12 @@ package org.restbucks.wechat.bff.wechat.messaging;
 import lombok.RequiredArgsConstructor;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
-import org.restbucks.wechat.mp.autoconfigure.messaging.WeChatInboundMessagingConfigurerAdapter;
+import org.restbucks.wechat.mp.autoconfigure.messaging.WeChatMpInboundMessagingConfigurerAdapter;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @RequiredArgsConstructor
-public class WeChatMessagingConfiguration extends WeChatInboundMessagingConfigurerAdapter {
+public class WeChatMpInboundMessageConfiguration extends WeChatMpInboundMessagingConfigurerAdapter {
 
     private final QrCodeScannedEventHandler qrCodeScannedEventHandler;
     private final NewSubscribedEventHandler newSubscribedEventHandler;

@@ -6,6 +6,9 @@ import me.chanjar.weixin.mp.api.WxMpKefuService;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.WxMpUserService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
+import org.restbucks.wechat.mp.autoconfigure.web.WeChatMpWebConfiguration;
+import org.restbucks.wechat.mp.autoconfigure.web.WeChatMpWebMethodConfiguration;
+import org.restbucks.wechat.mp.autoconfigure.web.security.WeChatMpWebSecurityConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +17,13 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @EnableConfigurationProperties(WeChatMpProperties.class)
-@Import(WeChatMpHttpConfiguration.class)
+@Import(
+    {
+        WeChatMpWebConfiguration.class,
+        WeChatMpWebSecurityConfiguration.class,
+        WeChatMpWebMethodConfiguration.class
+    }
+)
 public class WeChatMpConfiguration {
 
     @Bean

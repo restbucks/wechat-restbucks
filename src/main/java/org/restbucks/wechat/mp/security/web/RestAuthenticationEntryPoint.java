@@ -1,4 +1,4 @@
-package org.restbucks.wechat.bff.http.security;
+package org.restbucks.wechat.mp.security.web;
 
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
@@ -7,9 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.stereotype.Component;
 
-@Component
 public class RestAuthenticationEntryPoint
     implements AuthenticationEntryPoint {
 

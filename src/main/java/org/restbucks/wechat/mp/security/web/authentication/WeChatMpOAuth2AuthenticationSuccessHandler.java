@@ -1,4 +1,4 @@
-package org.restbucks.wechat.bff.http.security;
+package org.restbucks.wechat.mp.security.web.authentication;
 
 import java.io.IOException;
 import java.net.URL;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-public class WeChatOAuth2AuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+public class WeChatMpOAuth2AuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
         Authentication authentication) throws IOException, ServletException {

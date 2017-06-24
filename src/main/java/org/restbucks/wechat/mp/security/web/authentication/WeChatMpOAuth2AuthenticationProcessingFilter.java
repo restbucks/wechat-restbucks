@@ -1,4 +1,4 @@
-package org.restbucks.wechat.bff.http.security;
+package org.restbucks.wechat.mp.security.web.authentication;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,21 +8,23 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
+import org.restbucks.wechat.mp.security.authentication.WeChatMpOAuth2AccessTokenAuthentication;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
-public class WeChatOAuth2AuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+public class WeChatMpOAuth2AuthenticationProcessingFilter
+    extends AbstractAuthenticationProcessingFilter {
 
     @Setter
     private WxMpService wxMpService;
 
-    public WeChatOAuth2AuthenticationFilter(String defaultFilterProcessesUrl) {
+    public WeChatMpOAuth2AuthenticationProcessingFilter(String defaultFilterProcessesUrl) {
         super(defaultFilterProcessesUrl);
     }
 
-    public WeChatOAuth2AuthenticationFilter(
+    public WeChatMpOAuth2AuthenticationProcessingFilter(
         RequestMatcher requiresAuthenticationRequestMatcher) {
         super(requiresAuthenticationRequestMatcher);
     }
@@ -37,6 +39,6 @@ public class WeChatOAuth2AuthenticationFilter extends AbstractAuthenticationProc
 
         WxMpOAuth2AccessToken accessToken = wxMpService.oauth2getAccessToken(code);
 
-        return new WeChatOAuth2AccessTokenAdapter(accessToken);
+        return new WeChatMpOAuth2AccessTokenAuthentication(accessToken);
     }
 }

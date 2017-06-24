@@ -4,7 +4,7 @@ import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
 import org.springframework.context.annotation.Bean;
 
-public abstract class WeChatInboundMessagingConfigurerAdapter {
+public abstract class WeChatMpInboundMessagingConfigurerAdapter {
 
     @Bean
     protected WxMpMessageRouter wxMpMessageRouter(WxMpService wxMpService) {

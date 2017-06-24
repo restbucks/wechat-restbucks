@@ -1,17 +1,15 @@
-package org.restbucks.wechat.bff.http.support;
+package org.restbucks.wechat.mp.web.method.support;
 
-import org.restbucks.wechat.bff.http.security.CurrentWeChatUser;
-import org.restbucks.wechat.bff.http.security.WeChatOAuth2AccessTokenAdapter;
-import org.restbucks.wechat.bff.wechat.oauth.OpenId;
+import org.restbucks.wechat.mp.security.authentication.WeChatMpOAuth2AccessTokenAuthentication;
+import org.restbucks.wechat.mp.web.bind.annotation.CurrentWeChatMpUser;
+import org.restbucks.wechat.oauth.OpenId;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-@Component
 public class OpenIdHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
@@ -25,11 +23,11 @@ public class OpenIdHandlerMethodArgumentResolver implements HandlerMethodArgumen
         NativeWebRequest nativeWebRequest,
         WebDataBinderFactory webDataBinderFactory) throws Exception {
 
-        WeChatOAuth2AccessTokenAdapter user = (WeChatOAuth2AccessTokenAdapter)
+        WeChatMpOAuth2AccessTokenAuthentication user = (WeChatMpOAuth2AccessTokenAuthentication)
             SecurityContextHolder.getContext().getAuthentication();
 
-        CurrentWeChatUser weChatUser = methodParameter
-            .getParameterAnnotation(CurrentWeChatUser.class);
+        CurrentWeChatMpUser weChatUser = methodParameter
+            .getParameterAnnotation(CurrentWeChatMpUser.class);
         if (weChatUser == null) {
             return null;
         }

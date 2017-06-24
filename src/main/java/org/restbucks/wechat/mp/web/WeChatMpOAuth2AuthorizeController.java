@@ -1,4 +1,4 @@
-package org.restbucks.wechat.mp.http;
+package org.restbucks.wechat.mp.web;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequiredArgsConstructor
 @ConfigurationProperties(prefix = "wechat.mp")
-public class WeChatOAuth2AuthorizeController {
+public class WeChatMpOAuth2AuthorizeController {
 
     @Setter
     @NonNull
