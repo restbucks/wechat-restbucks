@@ -1,8 +1,8 @@
 package org.restbucks.wechat.bff.http
 
+import com.github.hippoom.wechat.mp.security.authentication.WeChatMpOAuth2AccessTokenAuthentication
+import com.github.hippoom.wechat.oauth.OpenId
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken
-import org.restbucks.wechat.mp.security.authentication.WeChatMpOAuth2AccessTokenAuthentication
-import org.restbucks.wechat.oauth.OpenId
 import org.restbucks.wechat.bff.wechat.oauth.WeChatUserOAuth2AccessTokenFixture
 import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.test.web.servlet.request.RequestPostProcessor

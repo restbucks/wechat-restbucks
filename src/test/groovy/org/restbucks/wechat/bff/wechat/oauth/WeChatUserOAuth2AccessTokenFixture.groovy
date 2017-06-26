@@ -1,7 +1,7 @@
 package org.restbucks.wechat.bff.wechat.oauth
 
+import com.github.hippoom.wechat.oauth.OpenId
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken
-import org.restbucks.wechat.oauth.OpenId
 
 class WeChatUserOAuth2AccessTokenFixture {
 

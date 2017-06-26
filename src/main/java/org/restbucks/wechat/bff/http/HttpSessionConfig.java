@@ -7,7 +7,6 @@ import org.springframework.session.MapSessionRepository;
 import org.springframework.session.SessionRepository;
 import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
 
-//@EnableRedisHttpSession
 @Configuration
 @EnableSpringHttpSession
 @ConditionalOnProperty(name = "session.mode", havingValue = "map", matchIfMissing = true)

@@ -3,10 +3,10 @@ package org.restbucks.wechat.bff.http.assembler;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
+import com.github.hippoom.wechat.oauth.OpenId;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.restbucks.wechat.bff.http.WeChatUserRestController;
 import org.restbucks.wechat.bff.http.resource.WeChatUserProfileResource;
-import org.restbucks.wechat.oauth.OpenId;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Component;
 

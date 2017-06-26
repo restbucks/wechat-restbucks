@@ -3,8 +3,8 @@ package org.restbucks.wechat.bff.wechat.oauth;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import com.github.hippoom.wechat.oauth.OpenId;
 import java.io.IOException;
-import org.restbucks.wechat.oauth.OpenId;
 
 public class OpenIdSerializer extends JsonSerializer<OpenId> {
 
