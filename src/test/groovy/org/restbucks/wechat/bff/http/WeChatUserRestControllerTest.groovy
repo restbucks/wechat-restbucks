@@ -1,10 +1,10 @@
 package org.restbucks.wechat.bff.http
 
 import org.junit.Test
-import org.restbucks.wechat.bff.wechat.oauth.WeChatUserProfileFixture
 
+import static com.github.hippoom.wechat.mp.test.fixture.WxMpUserFixture.aWxMpUser
+import static com.github.hippoom.wechat.mp.test.web.servlet.request.WxMpOAuth2AccessTokenRequestPostProcessor.aWeChatMpUser
 import static org.mockito.BDDMockito.given
-import static org.restbucks.wechat.bff.http.WeChatUserRequestPostProcessor.weChatUser
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.*
@@ -21,14 +21,14 @@ class WeChatUserRestControllerTest extends AbstractWebMvcTest {
     @Test
     void returns_wechat_user_profile() {
 
-        def userProfile = new WeChatUserProfileFixture().build()
+        def userProfile = aWxMpUser().build()
 
         given(wxMpUserService.userInfo(userProfile.openId)).willReturn(userProfile)
 
         // @formatter:off
         this.mockMvc.perform(
                     get("/rel/wechat/user/profile/me")
-                    .with(weChatUser().withOpenId(userProfile.openId)).with(csrf().asHeader())
+                    .with(aWeChatMpUser().withOpenId(userProfile.openId)).with(csrf().asHeader())
                 )
                 .andDo(print())
 	            .andExpect(status().isOk())
